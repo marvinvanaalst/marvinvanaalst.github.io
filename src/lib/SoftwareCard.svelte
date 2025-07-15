@@ -3,6 +3,7 @@
 	import { faNewspaper } from '@fortawesome/free-solid-svg-icons';
 	import type { Snippet } from 'svelte';
 	import Fa from 'svelte-fa';
+	import Card from './Card.svelte';
 	let {
 		children,
 		title,
@@ -18,8 +19,7 @@
 	} = $props();
 </script>
 
-<div class="card">
-	<h2>{title}</h2>
+<Card {title}>
 	{@render children()}
 	{#if github != null}
 		<a href={github}><Fa icon={faGithub} /> Check me out at Github</a>
@@ -29,13 +29,4 @@
 	{#if doi != null}
 		<a href="https://doi.org/{doi}"><Fa icon={faNewspaper} />Publication</a>
 	{/if}
-</div>
-
-<style>
-	.card {
-		background-color: var(--pico-muted-border-color);
-		padding: 2rem 1rem;
-		margin: 2rem 1rem;
-		box-shadow: 5px 5px 15px 5px var(--pico-background-color);
-	}
-</style>
+</Card>

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import BlogCard from '$lib/BlogCard.svelte';
+	import BlogCard from '$lib/Card.svelte';
 	import json from '$lib/publications.json';
 </script>
 
