@@ -24,3 +24,17 @@
 	carbon fixation". The keen reader will notice, I like working with plant metabolism and metabolic
 	modeling.
 </p>
+
+<style>
+	h1 {
+		background: linear-gradient(
+			to right,
+			rgb(215.4, 140.8, 210.2),
+			rgb(184.5, 153, 237.75),
+			rgb(156.6, 165.3, 232.6),
+			rgb(142.75, 168.95, 240.05)
+		);
+		background-clip: text;
+		-webkit-text-fill-color: transparent;
+	}
+</style>
