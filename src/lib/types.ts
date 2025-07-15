@@ -8,3 +8,19 @@ export type Post = {
     categories: Categories[]
     published: boolean
 }
+
+
+export type Publication = {
+    title: string
+    date: string
+    doi: string
+    authors: string[]
+}
+
+export type SoftwareProject = {
+    title: string
+    description: string
+    github?: string
+    gitlab?: string
+    doi?: string
+}
