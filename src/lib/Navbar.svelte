@@ -2,6 +2,7 @@
 	import { faBars } from '@fortawesome/free-solid-svg-icons';
 	import Fa from 'svelte-fa';
 	import { MediaQuery } from 'svelte/reactivity';
+	import ThemeSwitcher from './ThemeSwitcher.svelte';
 
 	const small = new MediaQuery('max-width: 800px');
 	let { children } = $props();
@@ -20,12 +21,13 @@
 			{@render children()}
 		{/if}
 	</ul>
+	<ThemeSwitcher />
 </nav>
 
 <style>
 	nav {
-		/* padding-block: var(--pico-block-spacing-vertical); */
 		min-height: 4rem;
 		justify-content: flex-end;
+		align-items: center;
 	}
 </style>
