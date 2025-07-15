@@ -11,6 +11,7 @@
 <nav>
 	<ul>
 		{#if small.current}
+			<ThemeSwitcher />
 			<details class="dropdown">
 				<summary> <Fa icon={faBars} /> </summary>
 				<ul dir="rtl">
@@ -19,9 +20,9 @@
 			</details>
 		{:else}
 			{@render children()}
+			<ThemeSwitcher />
 		{/if}
 	</ul>
-	<ThemeSwitcher />
 </nav>
 
 <style>

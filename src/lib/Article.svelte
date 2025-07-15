@@ -14,7 +14,7 @@
 		background-color: var(--pico-background-color);
 	}
 
-	@media screen and (min-width: 961px) {
+	@media screen and (min-width: 1024px) {
 		article {
 			padding: 2rem;
 			min-height: 512px;

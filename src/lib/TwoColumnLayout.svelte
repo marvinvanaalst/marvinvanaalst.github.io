@@ -12,7 +12,7 @@
 		flex-direction: column;
 	}
 
-	@media screen and (min-width: 961px) {
+	@media screen and (min-width: 1024px) {
 		div {
 			flex-direction: row;
 			justify-content: center;

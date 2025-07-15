@@ -41,19 +41,24 @@
 
 <style>
 	aside {
-		/* display: none; */
-		display: flex;
-		flex-direction: row;
-		align-items: center;
-		justify-content: center;
+		display: none;
 	}
 
-	ul {
-		display: grid;
-		grid-template-columns: repeat(2, 1fr);
+	@media screen and (min-width: 576px) {
+		aside {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			justify-content: center;
+		}
+
+		ul {
+			display: grid;
+			grid-template-columns: repeat(2, 1fr);
+		}
 	}
 
-	@media screen and (min-width: 961px) {
+	@media screen and (min-width: 1024px) {
 		ul {
 			display: block;
 			columns: 1;

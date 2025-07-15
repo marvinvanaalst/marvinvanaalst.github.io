@@ -2,4 +2,5 @@ p {
     /* Constraint max width of paragraphs to 60 characters for better
     legibility */
     max-width: 60ch;
+
 }
