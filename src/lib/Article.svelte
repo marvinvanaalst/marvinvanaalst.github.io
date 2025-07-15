@@ -9,6 +9,7 @@
 <style>
 	article {
 		width: 100%;
+		max-width: 70ch;
 		padding: 2rem 0;
 		background-color: var(--pico-background-color);
 	}

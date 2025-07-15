@@ -15,6 +15,7 @@
 	@media screen and (min-width: 961px) {
 		div {
 			flex-direction: row;
+			justify-content: center;
 		}
 	}
 </style>
