@@ -41,15 +41,28 @@
 
 <style>
 	aside {
-		display: none;
+		/* display: none; */
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: center;
+	}
+
+	ul {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
 	}
 
 	@media screen and (min-width: 800px) {
+		ul {
+			display: block;
+			columns: 1;
+		}
 		aside {
 			padding-top: var(--pico-block-spacing-vertical);
-			display: flex;
 			flex-direction: column;
 			align-items: center;
+			justify-content: flex-start;
 			min-width: 15rem;
 		}
 	}
