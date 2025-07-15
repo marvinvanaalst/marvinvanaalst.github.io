@@ -7,6 +7,7 @@
 	import TwoColumnLayout from '$lib/TwoColumnLayout.svelte';
 
 	let { children } = $props();
+	export const prerender = true;
 </script>
 
 <Navbar>
