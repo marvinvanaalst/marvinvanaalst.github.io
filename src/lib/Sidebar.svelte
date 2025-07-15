@@ -53,7 +53,7 @@
 		grid-template-columns: repeat(2, 1fr);
 	}
 
-	@media screen and (min-width: 800px) {
+	@media screen and (min-width: 961px) {
 		ul {
 			display: block;
 			columns: 1;

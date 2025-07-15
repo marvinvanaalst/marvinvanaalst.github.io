@@ -12,7 +12,7 @@
 		flex-direction: column;
 	}
 
-	@media screen and (min-width: 800px) {
+	@media screen and (min-width: 961px) {
 		div {
 			flex-direction: row;
 		}

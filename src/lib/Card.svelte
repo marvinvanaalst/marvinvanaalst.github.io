@@ -20,7 +20,7 @@
 		margin: 2rem 0;
 	}
 
-	@media screen and (min-width: 800px) {
+	@media screen and (min-width: 961px) {
 		.card {
 			background-color: var(--pico-muted-border-color);
 			box-shadow: 5px 5px 15px 5px var(--pico-background-color);
