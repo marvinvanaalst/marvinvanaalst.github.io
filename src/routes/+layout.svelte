@@ -23,7 +23,7 @@
 <Navbar>
 	<li><a href="/">Home</a></li>
 	<li><a href="/papers">Papers</a></li>
-	<!-- <li><a href="/talks">Talks</a></li> -->
+	<li><a href="/talks">Talks</a></li>
 	<li><a href="/software">Software</a></li>
 	<li><a href="/blog">Blog</a></li>
 </Navbar>
