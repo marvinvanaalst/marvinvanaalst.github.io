@@ -4,3 +4,9 @@ p {
     max-width: 60ch;
 
 }
+
+:root {
+    --white: #eff1f4;
+    --primary: rgb(0, 97, 101);
+
+}

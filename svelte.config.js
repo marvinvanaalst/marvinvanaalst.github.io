@@ -3,21 +3,31 @@ import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 import { escapeSvelte, mdsvex } from 'mdsvex';
 import { createHighlighter } from 'shiki';
 
+import { dirname, join } from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+const layouts_dir = join(__dirname, './src/lib/mdpages');
+
+const highlighter = await createHighlighter({
+	themes: ['poimandres'],
+	langs: ['javascript', 'typescript', 'python']
+});
+
 /** @type {import('mdsvex').MdsvexOptions} */
 const mdsvexOptions = {
 	extensions: ['.md'],
 	highlight: {
-		highlighter: async (code, lang = 'text') => {
-			const highlighter = await createHighlighter({
-				themes: ['poimandres'],
-				langs: ['javascript', 'typescript']
-			})
-			await highlighter.loadLanguage('javascript', 'typescript')
-			const html = escapeSvelte(highlighter.codeToHtml(code, { lang, theme: 'poimandres' }))
-			return `{@html \`${html}\` }`
+		highlighter: (code, lang = 'text') => {
+			const html = escapeSvelte(highlighter.codeToHtml(code, { lang, theme: 'poimandres' }));
+			return `{@html \`${html}\` }`;
 		}
 	},
-}
+	layout: {
+		_: join(layouts_dir, 'Layout.svelte')
+	}
+};
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
@@ -30,7 +40,7 @@ const config = {
 			precompress: false,
 			strict: true,
 			fallback: '404.html'
-		}),
+		})
 	}
 };
 
