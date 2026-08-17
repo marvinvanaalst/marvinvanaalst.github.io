@@ -2,6 +2,7 @@
 	import * as config from '$lib/config';
 	import '../app.css';
 
+	import { resolve } from '$app/paths';
 	import Article from '$lib/Article.svelte';
 	import Navbar from '$lib/Navbar.svelte';
 	import Sidebar from '$lib/Sidebar.svelte';
@@ -21,11 +22,11 @@
 </svelte:head>
 
 <Navbar>
-	<li><a href="/">Home</a></li>
-	<li><a href="/papers">Papers</a></li>
-	<li><a href="/talks">Talks</a></li>
-	<li><a href="/software">Software</a></li>
-	<li><a href="/blog">Blog</a></li>
+	<li><a href={resolve('/')}>Home</a></li>
+	<li><a href={resolve('/papers')}>Papers</a></li>
+	<li><a href={resolve('/talks')}>Talks</a></li>
+	<li><a href={resolve('/software')}>Software</a></li>
+	<li><a href={resolve('/blog')}>Blog</a></li>
 </Navbar>
 <TwoColumnLayout>
 	<Sidebar />

@@ -17,9 +17,9 @@
 </p>
 <p>Still, I wanted to toy around with this 😉</p>
 
-{#each json as { title, date, doi, authors }}
+{#each json as { title, date, doi, authors } (doi)}
 	<BlogCard {title}>
-		<p><a href={doi}>doi</a>, published {date}.</p>
+		<p><a href={doi} rel="external">doi</a>, published {date}.</p>
 		<p>Authored by {authors.join(', ')}</p>
 	</BlogCard>
 {/each}

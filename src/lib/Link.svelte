@@ -11,6 +11,7 @@
 	} = $props();
 </script>
 
+<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -- href is arbitrary markdown-authored content (internal or external), not statically resolvable -->
 <a {href} class={`${color}`}>
 	{@render children()}
 </a>

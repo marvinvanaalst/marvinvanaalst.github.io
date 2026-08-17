@@ -22,11 +22,11 @@
 <Card {title}>
 	{@render children()}
 	{#if github != null}
-		<a href={github}><Fa icon={faGithub} /> Check me out at Github</a>
+		<a href={github} rel="external"><Fa icon={faGithub} /> Check me out at Github</a>
 	{:else if gitlab != null}
-		<a href={gitlab}><Fa icon={faGitlab} /> Check me out at GitLab</a>
+		<a href={gitlab} rel="external"><Fa icon={faGitlab} /> Check me out at GitLab</a>
 	{/if}
 	{#if doi != null}
-		<a href="https://doi.org/{doi}"><Fa icon={faNewspaper} />Publication</a>
+		<a href="https://doi.org/{doi}" rel="external"><Fa icon={faNewspaper} />Publication</a>
 	{/if}
 </Card>

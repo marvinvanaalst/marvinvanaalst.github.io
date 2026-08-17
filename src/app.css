@@ -1,12 +1,10 @@
 p {
-    /* Constraint max width of paragraphs to 60 characters for better
+	/* Constraint max width of paragraphs to 60 characters for better
     legibility */
-    max-width: 60ch;
-
+	max-width: 60ch;
 }
 
 :root {
-    --white: #eff1f4;
-    --primary: rgb(0, 97, 101);
-
+	--white: #eff1f4;
+	--primary: rgb(0, 97, 101);
 }
