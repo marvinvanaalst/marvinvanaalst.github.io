@@ -65,7 +65,7 @@ jobs:
 
       - name: build
         env:
-          BASE_PATH: "/${{ github.event.repository.name }}"
+          BASE_PATH: '/${{ github.event.repository.name }}'
         run: npm run build
 
       - name: enforce client JS chunk size budget

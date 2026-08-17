@@ -1,3 +1,7 @@
+<script lang="ts">
+	import { resolve } from '$app/paths';
+</script>
+
 <hgroup>
 	<h1>Dr. Marvin van Aalst</h1>
 	<p>RWTH Aachen University, Germany</p>
@@ -6,12 +10,13 @@
 <p>Hello there 👋</p>
 <p>
 	I'm a postdoc working as a research software engineer at the <a
-		href="https://www.cpbl.rwth-aachen.de/go/id/sazuq/?lidx=1">Computational Life Science lab</a
+		href="https://www.cpbl.rwth-aachen.de/go/id/sazuq/?lidx=1"
+		rel="external">Computational Life Science lab</a
 	>
-	at <a href="https://www.rwth-aachen.de">RWTH Aachen</a>. I enjoy writing
-	<a href="/software">software</a>
+	at <a href="https://www.rwth-aachen.de" rel="external">RWTH Aachen</a>. I enjoy writing
+	<a href={resolve('/software')}>software</a>
 	to make it easier to work with mathematical / theoretical biology. Of course I also still actively
-	<a href="/papers">do research</a>.
+	<a href={resolve('/papers')}>do research</a>.
 </p>
 
 <h2>Quick CV</h2>
