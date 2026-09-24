@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { page } from '$app/state';
 	import * as config from '$lib/config';
 	import '../app.css';
 
@@ -21,14 +22,18 @@
 	<meta name="twitter:card" content="summary" />
 </svelte:head>
 
-<Navbar>
-	<li><a href={resolve('/')}>Home</a></li>
-	<li><a href={resolve('/papers')}>Papers</a></li>
-	<li><a href={resolve('/talks')}>Talks</a></li>
-	<li><a href={resolve('/software')}>Software</a></li>
-	<li><a href={resolve('/blog')}>Blog</a></li>
-</Navbar>
-<TwoColumnLayout>
-	<Sidebar />
-	<Article>{@render children()}</Article>
-</TwoColumnLayout>
+{#if page.url.pathname.startsWith('/designs')}
+	{@render children()}
+{:else}
+	<Navbar>
+		<li><a href={resolve('/')}>Home</a></li>
+		<li><a href={resolve('/papers')}>Papers</a></li>
+		<li><a href={resolve('/talks')}>Talks</a></li>
+		<li><a href={resolve('/software')}>Software</a></li>
+		<li><a href={resolve('/blog')}>Blog</a></li>
+	</Navbar>
+	<TwoColumnLayout>
+		<Sidebar />
+		<Article>{@render children()}</Article>
+	</TwoColumnLayout>
+{/if}

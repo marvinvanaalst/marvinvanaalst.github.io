@@ -1,0 +1,485 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-24T11:21:20.432180+00:00",
+  "title": "Design System: Marvin van Aalst",
+  "extensions": {
+    "colorMeta": {
+      "violet-ink": {
+        "role": "primary",
+        "displayName": "Violet Ink",
+        "canonical": "oklch(54.9% 0.173 300.4)",
+        "tonalRamp": [
+          "oklch(15% 0.173 300.4)",
+          "oklch(26% 0.173 300.4)",
+          "oklch(37% 0.173 300.4)",
+          "oklch(48% 0.173 300.4)",
+          "oklch(59% 0.173 300.4)",
+          "oklch(70% 0.173 300.4)",
+          "oklch(82% 0.173 300.4)",
+          "oklch(95% 0.173 300.4)"
+        ]
+      },
+      "violet-ink-hover": {
+        "role": "primary",
+        "displayName": "Deep Violet Ink",
+        "canonical": "oklch(46.7% 0.188 297.4)",
+        "tonalRamp": [
+          "oklch(15% 0.188 297.4)",
+          "oklch(26% 0.188 297.4)",
+          "oklch(37% 0.188 297.4)",
+          "oklch(48% 0.188 297.4)",
+          "oklch(59% 0.188 297.4)",
+          "oklch(70% 0.188 297.4)",
+          "oklch(82% 0.188 297.4)",
+          "oklch(95% 0.188 297.4)"
+        ]
+      },
+      "violet-ink-dark": {
+        "role": "primary",
+        "displayName": "Soft Violet Ink",
+        "canonical": "oklch(71.1% 0.110 305.1)",
+        "tonalRamp": [
+          "oklch(15% 0.110 305.1)",
+          "oklch(26% 0.110 305.1)",
+          "oklch(37% 0.110 305.1)",
+          "oklch(48% 0.110 305.1)",
+          "oklch(59% 0.110 305.1)",
+          "oklch(70% 0.110 305.1)",
+          "oklch(82% 0.110 305.1)",
+          "oklch(95% 0.110 305.1)"
+        ]
+      },
+      "violet-ink-dark-hover": {
+        "role": "primary",
+        "displayName": "Pale Violet Ink",
+        "canonical": "oklch(79.4% 0.079 306.9)",
+        "tonalRamp": [
+          "oklch(15% 0.079 306.9)",
+          "oklch(26% 0.079 306.9)",
+          "oklch(37% 0.079 306.9)",
+          "oklch(48% 0.079 306.9)",
+          "oklch(59% 0.079 306.9)",
+          "oklch(70% 0.079 306.9)",
+          "oklch(82% 0.079 306.9)",
+          "oklch(95% 0.079 306.9)"
+        ]
+      },
+      "violet-fill": {
+        "role": "primary",
+        "displayName": "Violet Fill",
+        "canonical": "oklch(50.4% 0.189 298.5)",
+        "tonalRamp": [
+          "oklch(15% 0.189 298.5)",
+          "oklch(26% 0.189 298.5)",
+          "oklch(37% 0.189 298.5)",
+          "oklch(48% 0.189 298.5)",
+          "oklch(59% 0.189 298.5)",
+          "oklch(70% 0.189 298.5)",
+          "oklch(82% 0.189 298.5)",
+          "oklch(95% 0.189 298.5)"
+        ]
+      },
+      "orchid-gradient-start": {
+        "role": "tertiary",
+        "displayName": "Orchid",
+        "canonical": "oklch(73.9% 0.128 329.1)",
+        "tonalRamp": [
+          "oklch(15% 0.128 329.1)",
+          "oklch(26% 0.128 329.1)",
+          "oklch(37% 0.128 329.1)",
+          "oklch(48% 0.128 329.1)",
+          "oklch(59% 0.128 329.1)",
+          "oklch(70% 0.128 329.1)",
+          "oklch(82% 0.128 329.1)",
+          "oklch(95% 0.128 329.1)"
+        ]
+      },
+      "lilac-gradient-mid": {
+        "role": "tertiary",
+        "displayName": "Lilac",
+        "canonical": "oklch(74.4% 0.124 300.8)",
+        "tonalRamp": [
+          "oklch(15% 0.124 300.8)",
+          "oklch(26% 0.124 300.8)",
+          "oklch(37% 0.124 300.8)",
+          "oklch(48% 0.124 300.8)",
+          "oklch(59% 0.124 300.8)",
+          "oklch(70% 0.124 300.8)",
+          "oklch(82% 0.124 300.8)",
+          "oklch(95% 0.124 300.8)"
+        ]
+      },
+      "periwinkle-gradient-mid": {
+        "role": "tertiary",
+        "displayName": "Periwinkle",
+        "canonical": "oklch(74.1% 0.099 278.5)",
+        "tonalRamp": [
+          "oklch(15% 0.099 278.5)",
+          "oklch(26% 0.099 278.5)",
+          "oklch(37% 0.099 278.5)",
+          "oklch(48% 0.099 278.5)",
+          "oklch(59% 0.099 278.5)",
+          "oklch(70% 0.099 278.5)",
+          "oklch(82% 0.099 278.5)",
+          "oklch(95% 0.099 278.5)"
+        ]
+      },
+      "cornflower-gradient-end": {
+        "role": "tertiary",
+        "displayName": "Cornflower",
+        "canonical": "oklch(74.3% 0.107 268.3)",
+        "tonalRamp": [
+          "oklch(15% 0.107 268.3)",
+          "oklch(26% 0.107 268.3)",
+          "oklch(37% 0.107 268.3)",
+          "oklch(48% 0.107 268.3)",
+          "oklch(59% 0.107 268.3)",
+          "oklch(70% 0.107 268.3)",
+          "oklch(82% 0.107 268.3)",
+          "oklch(95% 0.107 268.3)"
+        ]
+      },
+      "paper": {
+        "role": "neutral",
+        "displayName": "Paper",
+        "canonical": "oklch(100.0% 0.000 89.9)",
+        "tonalRamp": [
+          "oklch(15% 0.000 89.9)",
+          "oklch(26% 0.000 89.9)",
+          "oklch(37% 0.000 89.9)",
+          "oklch(48% 0.000 89.9)",
+          "oklch(59% 0.000 89.9)",
+          "oklch(70% 0.000 89.9)",
+          "oklch(82% 0.000 89.9)",
+          "oklch(95% 0.000 89.9)"
+        ]
+      },
+      "graphite-text": {
+        "role": "neutral",
+        "displayName": "Graphite Text",
+        "canonical": "oklch(35.5% 0.015 259.8)",
+        "tonalRamp": [
+          "oklch(15% 0.015 259.8)",
+          "oklch(26% 0.015 259.8)",
+          "oklch(37% 0.015 259.8)",
+          "oklch(48% 0.015 259.8)",
+          "oklch(59% 0.015 259.8)",
+          "oklch(70% 0.015 259.8)",
+          "oklch(82% 0.015 259.8)",
+          "oklch(95% 0.015 259.8)"
+        ]
+      },
+      "graphite-heading": {
+        "role": "neutral",
+        "displayName": "Graphite Heading",
+        "canonical": "oklch(31.2% 0.014 261.7)",
+        "tonalRamp": [
+          "oklch(15% 0.014 261.7)",
+          "oklch(26% 0.014 261.7)",
+          "oklch(37% 0.014 261.7)",
+          "oklch(48% 0.014 261.7)",
+          "oklch(59% 0.014 261.7)",
+          "oklch(70% 0.014 261.7)",
+          "oklch(82% 0.014 261.7)",
+          "oklch(95% 0.014 261.7)"
+        ]
+      },
+      "slate-muted": {
+        "role": "neutral",
+        "displayName": "Slate Muted",
+        "canonical": "oklch(52.7% 0.024 264.3)",
+        "tonalRamp": [
+          "oklch(15% 0.024 264.3)",
+          "oklch(26% 0.024 264.3)",
+          "oklch(37% 0.024 264.3)",
+          "oklch(48% 0.024 264.3)",
+          "oklch(59% 0.024 264.3)",
+          "oklch(70% 0.024 264.3)",
+          "oklch(82% 0.024 264.3)",
+          "oklch(95% 0.024 264.3)"
+        ]
+      },
+      "fog-rule": {
+        "role": "neutral",
+        "displayName": "Fog Rule",
+        "canonical": "oklch(93.6% 0.009 264.5)",
+        "tonalRamp": [
+          "oklch(15% 0.009 264.5)",
+          "oklch(26% 0.009 264.5)",
+          "oklch(37% 0.009 264.5)",
+          "oklch(48% 0.009 264.5)",
+          "oklch(59% 0.009 264.5)",
+          "oklch(70% 0.009 264.5)",
+          "oklch(82% 0.009 264.5)",
+          "oklch(95% 0.009 264.5)"
+        ]
+      },
+      "night-paper": {
+        "role": "neutral",
+        "displayName": "Night Paper",
+        "canonical": "oklch(20.4% 0.017 264.1)",
+        "tonalRamp": [
+          "oklch(15% 0.017 264.1)",
+          "oklch(26% 0.017 264.1)",
+          "oklch(37% 0.017 264.1)",
+          "oklch(48% 0.017 264.1)",
+          "oklch(59% 0.017 264.1)",
+          "oklch(70% 0.017 264.1)",
+          "oklch(82% 0.017 264.1)",
+          "oklch(95% 0.017 264.1)"
+        ]
+      },
+      "night-panel": {
+        "role": "neutral",
+        "displayName": "Night Panel",
+        "canonical": "oklch(22.7% 0.019 266.2)",
+        "tonalRamp": [
+          "oklch(15% 0.019 266.2)",
+          "oklch(26% 0.019 266.2)",
+          "oklch(37% 0.019 266.2)",
+          "oklch(48% 0.019 266.2)",
+          "oklch(59% 0.019 266.2)",
+          "oklch(70% 0.019 266.2)",
+          "oklch(82% 0.019 266.2)",
+          "oklch(95% 0.019 266.2)"
+        ]
+      },
+      "moonlight-text": {
+        "role": "neutral",
+        "displayName": "Moonlight Text",
+        "canonical": "oklch(82.8% 0.014 262.4)",
+        "tonalRamp": [
+          "oklch(15% 0.014 262.4)",
+          "oklch(26% 0.014 262.4)",
+          "oklch(37% 0.014 262.4)",
+          "oklch(48% 0.014 262.4)",
+          "oklch(59% 0.014 262.4)",
+          "oklch(70% 0.014 262.4)",
+          "oklch(82% 0.014 262.4)",
+          "oklch(95% 0.014 262.4)"
+        ]
+      },
+      "moonlight-heading": {
+        "role": "neutral",
+        "displayName": "Moonlight Heading",
+        "canonical": "oklch(95.8% 0.003 264.5)",
+        "tonalRamp": [
+          "oklch(15% 0.003 264.5)",
+          "oklch(26% 0.003 264.5)",
+          "oklch(37% 0.003 264.5)",
+          "oklch(48% 0.003 264.5)",
+          "oklch(59% 0.003 264.5)",
+          "oklch(70% 0.003 264.5)",
+          "oklch(82% 0.003 264.5)",
+          "oklch(95% 0.003 264.5)"
+        ]
+      },
+      "night-rule": {
+        "role": "neutral",
+        "displayName": "Night Rule",
+        "canonical": "oklch(26.8% 0.024 264.0)",
+        "tonalRamp": [
+          "oklch(15% 0.024 264.0)",
+          "oklch(26% 0.024 264.0)",
+          "oklch(37% 0.024 264.0)",
+          "oklch(48% 0.024 264.0)",
+          "oklch(59% 0.024 264.0)",
+          "oklch(70% 0.024 264.0)",
+          "oklch(82% 0.024 264.0)",
+          "oklch(95% 0.024 264.0)"
+        ]
+      },
+      "teal-drift": {
+        "role": "drift",
+        "displayName": "Teal Drift",
+        "canonical": "oklch(44.8% 0.076 199.7)",
+        "tonalRamp": [
+          "oklch(15% 0.076 199.7)",
+          "oklch(26% 0.076 199.7)",
+          "oklch(37% 0.076 199.7)",
+          "oklch(48% 0.076 199.7)",
+          "oklch(59% 0.076 199.7)",
+          "oklch(70% 0.076 199.7)",
+          "oklch(82% 0.076 199.7)",
+          "oklch(95% 0.076 199.7)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Page titles and the name heading."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Section headings and card titles."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Tutorial subsections."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Paragraphs, max 60ch; root size scales 100%–131.25% by breakpoint."
+      },
+      "label": {
+        "displayName": "Code",
+        "purpose": "Inline code and Shiki (poimandres) blocks."
+      }
+    },
+    "shadows": [],
+    "motion": [
+      {
+        "name": "pico-transition",
+        "value": "0.2s ease-in-out",
+        "purpose": "Pico default for link and control color changes; the only motion in the system."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "sm",
+        "value": "576px"
+      },
+      {
+        "name": "md",
+        "value": "768px"
+      },
+      {
+        "name": "nav-collapse",
+        "value": "800px"
+      },
+      {
+        "name": "lg",
+        "value": "1024px"
+      },
+      {
+        "name": "xl",
+        "value": "1280px"
+      },
+      {
+        "name": "xxl",
+        "value": "1536px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Text Link",
+      "kind": "custom",
+      "refersTo": "link",
+      "description": "The one interactive ink: violet text with a half-alpha underline.",
+      "html": "<p class=\"ds-p\">Read the paper at <a class=\"ds-link\" href=\"#\">doi</a>, or browse the <a class=\"ds-link\" href=\"#\">software</a>.</p>",
+      "css": ".ds-p{color:var(--pico-color, #373c44);font-family:system-ui,sans-serif;line-height:1.5} .ds-link{color:var(--pico-primary, #8352c5);text-decoration:underline;text-decoration-color:var(--pico-primary-underline, rgba(131,82,197,.5));text-underline-offset:.125rem;transition:color .2s ease-in-out,text-decoration-color .2s ease-in-out} .ds-link:hover{color:var(--pico-primary-hover, #6935b3);text-decoration-color:currentColor} .ds-link:focus-visible{outline:none;box-shadow:0 0 0 .125rem var(--pico-primary-focus, rgba(167,128,212,.5));border-radius:.25rem}"
+    },
+    {
+      "name": "Navigation Bar",
+      "kind": "nav",
+      "refersTo": "nav-bar",
+      "description": "Right-aligned plain text links plus the emoji theme toggle.",
+      "html": "<nav class=\"ds-nav\"><a href=\"#\">Home</a><a href=\"#\">Papers</a><a href=\"#\">Talks</a><a href=\"#\">Software</a><a href=\"#\">Blog</a><button class=\"ds-toggle\" title=\"Switch to dark theme\">🌙</button></nav>",
+      "css": ".ds-nav{display:flex;justify-content:flex-end;align-items:center;min-height:4rem;font-family:system-ui,sans-serif} .ds-nav a{color:var(--pico-primary, #8352c5);text-decoration:none;padding:1rem .5rem;transition:color .2s ease-in-out} .ds-nav a:hover{color:var(--pico-primary-hover, #6935b3);text-decoration:underline} .ds-nav a:focus-visible,.ds-toggle:focus-visible{outline:.125rem solid var(--pico-primary-focus, rgba(167,128,212,.5));border-radius:.25rem} .ds-toggle{background:none;border:none;padding:1rem .5rem;cursor:pointer;font-size:1rem} .ds-toggle:hover{text-decoration:underline}"
+    },
+    {
+      "name": "Card",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "Paper, software and post entries: tonal fill, square corners, headline title, icon links.",
+      "html": "<div class=\"ds-card\"><h2>MxlPy</h2><p>A Python package for mechanistic learning: mechanistic modeling plus machine learning.</p><a href=\"#\"><svg viewBox=\"0 0 16 16\" width=\"14\" height=\"14\" fill=\"currentColor\" aria-hidden=\"true\"><path d=\"M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z\"/></svg> Check me out at Github</a></div>",
+      "css": ".ds-card{background:var(--pico-muted-border-color, #e7eaf0);color:var(--pico-color, #373c44);padding:2rem 1rem;margin:2rem 1rem;font-family:system-ui,sans-serif;line-height:1.5} .ds-card h2{font-size:1.75rem;line-height:1.15;font-weight:700;margin:0 0 1rem;color:var(--pico-h2-color, #373c44)} .ds-card p{max-width:60ch;margin:0 0 1rem} .ds-card a{color:var(--pico-primary, #8352c5);display:inline-flex;gap:.375rem;align-items:center;transition:color .2s ease-in-out} .ds-card a:hover{color:var(--pico-primary-hover, #6935b3)} .ds-card a:focus-visible{outline:.125rem solid var(--pico-primary-focus, rgba(167,128,212,.5))}"
+    },
+    {
+      "name": "Page Title Group",
+      "kind": "custom",
+      "refersTo": null,
+      "description": "Plain Display title plus a muted first-person subtitle.",
+      "html": "<hgroup class=\"ds-hgroup\"><h1>Papers</h1><p>Advancing human knowledge ever so slightly.</p></hgroup>",
+      "css": ".ds-hgroup{font-family:system-ui,sans-serif;margin-bottom:1rem} .ds-hgroup h1{font-size:2rem;line-height:1.125;font-weight:700;margin:0 0 .25rem;color:var(--pico-h1-color, #2d3138)} .ds-hgroup p{margin:0;color:var(--pico-muted-color, #646b79)}"
+    },
+    {
+      "name": "Name Heading (signature gradient)",
+      "kind": "custom",
+      "refersTo": null,
+      "description": "The only use of the orchid-to-cornflower gradient: clipped to the name on the home page.",
+      "html": "<h1 class=\"ds-name\">Dr. Marvin van Aalst</h1>",
+      "css": ".ds-name{font-family:system-ui,sans-serif;font-size:2rem;line-height:1.125;font-weight:700;margin:0;background:linear-gradient(to right,#d78cd2,#b999ee,#9da5e9,#8fa9f0);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}"
+    },
+    {
+      "name": "Profile Portrait",
+      "kind": "custom",
+      "refersTo": "profile-portrait",
+      "description": "150px circle with a 4px text-color ring that inverts with theme.",
+      "html": "<div class=\"ds-portrait\" role=\"img\" aria-label=\"profile\"></div>",
+      "css": ".ds-portrait{width:150px;height:150px;border-radius:50%;border:4px solid var(--pico-color, #373c44);background:linear-gradient(135deg,var(--pico-muted-border-color, #e7eaf0),var(--pico-muted-color, #646b79))}"
+    },
+    {
+      "name": "Sidebar Link List",
+      "kind": "custom",
+      "refersTo": null,
+      "description": "Icon plus label profile links beside the portrait.",
+      "html": "<ul class=\"ds-side\"><li><a href=\"#\"><svg viewBox=\"0 0 16 16\" width=\"14\" height=\"14\" fill=\"currentColor\" aria-hidden=\"true\"><circle cx=\"8\" cy=\"8\" r=\"8\"/></svg>ORCID</a></li><li><a href=\"#\"><svg viewBox=\"0 0 16 16\" width=\"14\" height=\"14\" fill=\"currentColor\" aria-hidden=\"true\"><rect x=\"2\" y=\"1\" width=\"12\" height=\"14\"/></svg>RWTH Aachen</a></li></ul>",
+      "css": ".ds-side{list-style:none;padding:0;margin:0;font-family:system-ui,sans-serif} .ds-side li{padding:.25rem 0} .ds-side a{color:var(--pico-primary, #8352c5);text-decoration:none;display:inline-flex;gap:.5rem;align-items:center} .ds-side a:hover{color:var(--pico-primary-hover, #6935b3);text-decoration:underline} .ds-side a:focus-visible{outline:.125rem solid var(--pico-primary-focus, rgba(167,128,212,.5))}"
+    },
+    {
+      "name": "Inline Code Chip (drift)",
+      "kind": "chip",
+      "refersTo": "code-chip",
+      "description": "Tutorial inline code: white on 80% teal. Teal is drift slated to become violet.",
+      "html": "<p class=\"ds-p2\">Call <code class=\"ds-code\">model.add_reaction()</code> for each event.</p>",
+      "css": ".ds-p2{font-family:system-ui,sans-serif} .ds-code{color:#fff;background:rgb(0 97 101 / .8);border-radius:10px;padding:0 6px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.875em}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Lab Notebook",
+    "overview": "The site reads like a working scientist's notebook: plain paper, system type, one ink color, and a friendly scribble in the margin. Structure is almost entirely inherited from Pico CSS (violet theme). The site adds very little on top of it, and that restraint suits the job. A peer or recruiter should get facts, links and dates without any visual ceremony.\n\nThe mood is calm and friendly rather than neutral. Warmth doesn't come from decoration. It comes from a few small, deliberate moments: the soft orchid-to-cornflower gradient on the name on the home page, emoji in the copy, the round portrait, the emoji theme toggle. Everything else stays quiet so those moments read as personal and not as branding.\n\nDensity is low. One narrow reading column (70ch panel, 60ch paragraphs) sits next to a slim identity sidebar. Light and dark themes are both first-class. Pico's `prefers-color-scheme` handling is overridden by a manual toggle that stores the choice in localStorage.",
+    "keyCharacteristics": [
+      "One violet ink for links and interactive elements; neutrals do everything else.",
+      "System font stack throughout; no webfonts.",
+      "Flat surfaces separated by tone, not by shadows or borders.",
+      "A single signature flourish: the gradient on the name heading.",
+      "Narrow measure: 60ch paragraphs inside a 70ch panel.",
+      "Light and dark parity, switchable by the visitor."
+    ],
+    "rules": [
+      {
+        "name": "The One Ink Rule",
+        "body": "Violet is the only interactive color. If something is violet it is clickable, and if it is clickable it is violet (or inherits Pico's link treatment).",
+        "section": "colors"
+      },
+      {
+        "name": "The Signature-Once Rule",
+        "body": "The pastel gradient belongs to the name heading. Don't reuse it on section headings, buttons or dividers. Its rarity is what makes it personal.",
+        "section": "colors"
+      },
+      {
+        "name": "The Short Line Rule",
+        "body": "Paragraphs never exceed 60ch. The narrow measure is what makes long academic text scannable.",
+        "section": "typography"
+      },
+      {
+        "name": "The Subtitle-with-a-Wink Rule",
+        "body": "Page titles pair a plain noun (\"Papers\") with a small muted `hgroup` line in the first-person voice (\"Advancing human knowledge ever so slightly.\"). The title stays plain, and the personality goes in the subtitle.",
+        "section": "typography"
+      },
+      {
+        "name": "The Tone-Not-Shadow Rule",
+        "body": "Separate surfaces by tone only: page, then panel, then card fill. Don't add visible drop shadows.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "**Do** use Violet Ink (via Pico's link and primary variables) for every interactive element, in both themes.",
+      "**Do** pair each page title with a muted `hgroup` subtitle in the first-person voice.",
+      "**Do** keep paragraphs at or below 60ch and the reading panel at or below 70ch.",
+      "**Do** separate surfaces with the Paper → Panel → Rule tonal steps.",
+      "**Do** check every change in both light and dark themes, and with the manual toggle overriding the system setting.",
+      "**Do** lead external links with a small Font Awesome icon when they point to a known destination (GitHub, GitLab, ORCID, DOI)."
+    ],
+    "donts": [
+      "**Don't** introduce a second accent color. Teal is drift to remove, not a precedent.",
+      "**Don't** reuse the name gradient beyond the name heading.",
+      "**Don't** add webfonts. The system stack is part of the notebook plainness and keeps the site fast.",
+      "**Don't** add visible drop shadows or decorative borders to cards.",
+      "**Don't** remove focus outlines without a visible replacement."
+    ]
+  }
+}
