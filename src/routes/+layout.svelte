@@ -3,11 +3,8 @@
 	import * as config from '$lib/config';
 	import '../app.css';
 
-	import { resolve } from '$app/paths';
-	import Article from '$lib/Article.svelte';
-	import Navbar from '$lib/Navbar.svelte';
-	import Sidebar from '$lib/Sidebar.svelte';
-	import TwoColumnLayout from '$lib/TwoColumnLayout.svelte';
+	import Footer from '$lib/Footer.svelte';
+	import Header from '$lib/Header.svelte';
 
 	let { children } = $props();
 </script>
@@ -25,15 +22,29 @@
 {#if page.url.pathname.startsWith('/designs')}
 	{@render children()}
 {:else}
-	<Navbar>
-		<li><a href={resolve('/')}>Home</a></li>
-		<li><a href={resolve('/papers')}>Papers</a></li>
-		<li><a href={resolve('/talks')}>Talks</a></li>
-		<li><a href={resolve('/software')}>Software</a></li>
-		<li><a href={resolve('/blog')}>Blog</a></li>
-	</Navbar>
-	<TwoColumnLayout>
-		<Sidebar />
-		<Article>{@render children()}</Article>
-	</TwoColumnLayout>
+	<div class="shell">
+		<Header />
+		<main id="main-content">{@render children()}</main>
+		<Footer />
+	</div>
 {/if}
+
+<style>
+	.shell {
+		max-width: 1320px;
+		margin: auto;
+		padding: 0 48px;
+	}
+
+	@media (max-width: 1050px) {
+		.shell {
+			padding: 0 30px;
+		}
+	}
+
+	@media (max-width: 760px) {
+		.shell {
+			padding: 0 22px;
+		}
+	}
+</style>
