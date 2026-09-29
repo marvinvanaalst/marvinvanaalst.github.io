@@ -83,6 +83,15 @@
 			<main id="main-content">
 				<section class="hero" aria-labelledby="hero-title">
 					<div class="hero-copy">
+						{#if data.variant === 'precision'}
+							<img
+								class="hero-portrait"
+								src={asset('/profile.jpg')}
+								alt="Marvin van Aalst"
+								width="104"
+								height="104"
+							/>
+						{/if}
 						<p class="eyebrow">Research software engineer / RWTH Aachen</p>
 						<p class="hello">Hello there 👋</p>
 						<h1 id="hero-title">
