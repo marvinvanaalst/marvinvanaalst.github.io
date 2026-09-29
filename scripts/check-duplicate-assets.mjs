@@ -11,6 +11,9 @@ import { extname, join, relative } from 'node:path';
 const IMAGE_EXTENSIONS = new Set(['.png', '.jpg', '.jpeg', '.webp', '.avif', '.gif', '.svg']);
 const SKIP_DIRS = new Set(['node_modules', '.git', 'build', '.svelte-kit', 'dist']);
 const ROOTS = ['static', 'src'];
+// static/decks/<slug>/ holds Marp decks vendored wholesale from 0-uni-meta -
+// shared logos/photos across decks aren't a repo-hygiene duplicate.
+const SKIP_PATHS = new Set(['static/decks']);
 
 function walk(dir, out = []) {
 	let entries;
@@ -22,6 +25,7 @@ function walk(dir, out = []) {
 	for (const entry of entries) {
 		if (SKIP_DIRS.has(entry.name)) continue;
 		const full = join(dir, entry.name);
+		if (SKIP_PATHS.has(relative(process.cwd(), full))) continue;
 		if (entry.isDirectory()) {
 			walk(full, out);
 		} else if (IMAGE_EXTENSIONS.has(extname(entry.name).toLowerCase())) {

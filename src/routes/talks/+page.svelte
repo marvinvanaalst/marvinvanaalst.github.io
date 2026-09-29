@@ -1,8 +1,28 @@
+<script lang="ts">
+	import { resolve } from '$app/paths';
+</script>
+
 <h1>Talks and poster presentations</h1>
 
 <ul>
 	<!-- <li>2026-04: PyCon DE, Darmstadt, Germany</li> -->
 	<!-- <li>2026-05: EuroPython, Darmstadt, Germany</li> -->
+	<li>
+		2026-09: ISGSB (International Study Group for Systems Biology) Ljubljana, Slovenia: <a
+			href={resolve('/talks/[slug]', { slug: '2026-09-isgsb' })}
+			>Making sense of time series with universal differential equations</a
+		>
+	</li>
+	<li>2026-05: CCLS Brews and Breakthroughs, Aachen, Germany: Universal differential equations</li>
+	<li>2026-05: internal lab talk: Chill and warm sugars — or how I learned to find the fluxes</li>
+	<li>2026-04: CPBL tool talk: Neural differential equations, take two</li>
+	<li>
+		2026-01: CCLS Symposium, Aachen, Germany: Mechanistic learning in photosynthetic organisms
+	</li>
+	<li>2025-11: CPBL tool talk: Neural & universal differential equations</li>
+	<li>
+		2024-xx: internal (recorded walkthrough): modelbase — constructing modular, reproducible models
+	</li>
 	<li>
 		2024-09: GCB (German Conference on Bioinformatics) Bielefeld, Germany: Automatic kinetic model
 		creation using mxlpy

@@ -17,11 +17,16 @@ const MAX_BYTES = 300 * 1024; // 300KB
 const MAX_DIMENSION = 2000; // px, longest edge
 const RASTER_EXTENSIONS = new Set(['.png', '.jpg', '.jpeg', '.webp', '.avif', '.gif']);
 const SKIP_DIRS = new Set(['node_modules', '.git', 'build', '.svelte-kit', 'dist']);
+// static/decks/<slug>/ holds Marp decks vendored wholesale from 0-uni-meta -
+// presentation-resolution images that aren't part of this site's own asset
+// pipeline, so the budget doesn't apply to them.
+const SKIP_PATHS = new Set(['static/decks']);
 
 function walk(dir, out = []) {
 	for (const entry of readdirSync(dir, { withFileTypes: true })) {
 		if (SKIP_DIRS.has(entry.name)) continue;
 		const full = join(dir, entry.name);
+		if (SKIP_PATHS.has(relative(process.cwd(), full))) continue;
 		if (entry.isDirectory()) {
 			walk(full, out);
 		} else if (RASTER_EXTENSIONS.has(extname(entry.name).toLowerCase())) {
@@ -33,7 +38,9 @@ function walk(dir, out = []) {
 
 const argFiles = process.argv.slice(2);
 const files = argFiles.length
-	? argFiles.filter((f) => RASTER_EXTENSIONS.has(extname(f).toLowerCase()))
+	? argFiles.filter(
+			(f) => RASTER_EXTENSIONS.has(extname(f).toLowerCase()) && !f.startsWith('static/decks/')
+		)
 	: walk(process.cwd());
 
 let failed = false;
