@@ -1,84 +1,57 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 
-	let currentTheme = 'auto';
-	let isDark = false;
+	type Theme = 'auto' | 'light' | 'dark';
 
-	onMount(() => {
-		// Get saved theme from localStorage or default to 'auto'
-		const savedTheme = localStorage.getItem('theme') || 'auto';
-		setTheme(savedTheme);
+	let theme = $state<Theme>('auto');
+	let systemDark = $state(false);
 
-		// Listen for system theme changes
-		const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-		const handleSystemThemeChange = () => {
-			if (currentTheme === 'auto') {
-				updateTheme('auto');
-			}
-		};
-
-		mediaQuery.addEventListener('change', handleSystemThemeChange);
-
-		// Cleanup listener on component destroy
-		return () => {
-			mediaQuery.removeEventListener('change', handleSystemThemeChange);
-		};
-	});
-
-	function setTheme(theme: string) {
-		currentTheme = theme;
-		updateTheme(theme);
-		localStorage.setItem('theme', theme);
-	}
-
-	function updateTheme(theme: string) {
-		const html = document.documentElement;
-
-		if (theme === 'auto') {
-			html.removeAttribute('data-theme');
-			isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-		} else {
-			// Set explicit theme
-			html.setAttribute('data-theme', theme);
-			isDark = theme === 'dark';
-		}
-	}
-
-	function toggleTheme() {
-		if (currentTheme === 'auto') {
-			const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-			setTheme(systemPrefersDark ? 'light' : 'dark');
-		} else if (currentTheme === 'light') {
-			setTheme('dark');
-		} else {
-			setTheme('light');
-		}
-	}
-
-	// Get appropriate icon based on current state
-	$: icon = currentTheme === 'auto' ? '🌓' : isDark ? '☀️' : '🌙';
-
-	$: title =
-		currentTheme === 'auto'
-			? 'Auto theme (click to override)'
+	const isDark = $derived(theme === 'auto' ? systemDark : theme === 'dark');
+	const icon = $derived(theme === 'auto' ? '◐' : isDark ? '☀' : '☾');
+	const title = $derived(
+		theme === 'auto'
+			? 'Following system theme (click to override)'
 			: isDark
 				? 'Switch to light theme'
-				: 'Switch to dark theme';
+				: 'Switch to dark theme'
+	);
+
+	onMount(() => {
+		const query = window.matchMedia('(prefers-color-scheme: dark)');
+		systemDark = query.matches;
+		const onChange = () => (systemDark = query.matches);
+		query.addEventListener('change', onChange);
+
+		const saved = localStorage.getItem('theme');
+		theme = saved === 'light' || saved === 'dark' ? saved : 'auto';
+
+		return () => query.removeEventListener('change', onChange);
+	});
+
+	function toggle() {
+		theme = isDark ? 'light' : 'dark';
+		document.documentElement.setAttribute('data-theme', theme);
+		localStorage.setItem('theme', theme);
+	}
 </script>
 
-<button on:click={toggleTheme} {title}>{icon}</button>
+<button onclick={toggle} {title} aria-label={title}>{icon}</button>
 
 <style>
 	button {
-		text-decoration: none;
-		background: none;
-		border: none;
-		box-shadow: none;
-		outline: none;
-		padding: var(--pico-nav-element-spacing-vertical) var(--pico-nav-element-spacing-horizontal);
+		margin: 0;
+		border: 1px solid var(--line);
+		border-radius: 3px;
+		background: transparent;
+		color: var(--text);
+		padding: 3px 9px;
+		font: inherit;
+		font-size: 13px;
+		cursor: pointer;
 	}
+
 	button:hover {
-		color: var(--pico-primary-hover);
-		text-decoration: underline;
+		border-color: var(--accent);
+		color: var(--accent);
 	}
 </style>
