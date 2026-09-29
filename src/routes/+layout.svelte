@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { page } from '$app/state';
 	import * as config from '$lib/config';
 	import '../app.css';
 
@@ -19,15 +18,11 @@
 	<meta name="twitter:card" content="summary" />
 </svelte:head>
 
-{#if page.url.pathname.startsWith('/designs')}
-	{@render children()}
-{:else}
-	<div class="shell">
-		<Header />
-		<main id="main-content">{@render children()}</main>
-		<Footer />
-	</div>
-{/if}
+<div class="shell">
+	<Header />
+	<main id="main-content">{@render children()}</main>
+	<Footer />
+</div>
 
 <style>
 	.shell {
