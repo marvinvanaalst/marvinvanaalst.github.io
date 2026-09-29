@@ -3,57 +3,136 @@
 
   Dev Documentation
   -----------------
-  - shiki highlighter returns {@html ...} raw HTML — bypasses mdsvex component substitution entirely.
+  - mdsvex passes the frontmatter (title, date, ...) as props; only the content is rendered here.
+  - shiki highlighter returns {@html ...} raw HTML, so code blocks are styled via :global(.shiki).
 -->
 
-<script context="module">
-	import a from '../Link.svelte';
-	import h1 from '../text/H1.svelte';
-	import h2 from '../text/H2.svelte';
-	import h3 from '../text/H3.svelte';
-	import h4 from '../text/H4.svelte';
-	import h5 from '../text/H5.svelte';
-	import h6 from '../text/H6.svelte';
-	import p from '../text/Text.svelte';
-	import code from './code.svelte';
-	import hr from './hr.svelte';
-	import li from './li.svelte';
-	import table from './table.svelte';
-	import tbody from './tbody.svelte';
-	import td from './td.svelte';
-	import th from './th.svelte';
-	import thead from './thead.svelte';
-	import tr from './tr.svelte';
-	import ul from './ul.svelte';
-
-	export { a, code, h1, h2, h3, h4, h5, h6, hr, li, p, table, tbody, td, th, thead, tr, ul };
-	/**
-	 * @type {string}
-	 */
-	export let title;
-	/**
-	 * @type {string}
-	 */
-	export let description;
-	/**
-	 * @type {string}
-	 */
-	export let date;
-	/**
-	 * @type {string}
-	 */
-	export let categories;
-	/**
-	 * @type {string}
-	 */
-	export let published;
+<script lang="ts">
+	let { children } = $props();
 </script>
 
-<slot></slot>
+<div class="prose">
+	{@render children()}
+</div>
 
 <style>
-	:global(.shiki) {
+	.prose {
+		max-width: 72ch;
+		padding-bottom: 32px;
+		line-height: 1.75;
+	}
+
+	.prose :global(> * + *) {
+		margin-top: 1.1em;
+	}
+
+	.prose :global(h1),
+	.prose :global(h2),
+	.prose :global(h3),
+	.prose :global(h4) {
+		line-height: 1.25;
+		margin-top: 2em;
+	}
+
+	.prose :global(> :first-child) {
+		margin-top: 0;
+	}
+
+	.prose :global(h1) {
+		font-size: 30px;
+		letter-spacing: -0.04em;
+	}
+
+	.prose :global(h2) {
+		font-size: 24px;
+		padding-top: 22px;
+		border-top: 1px solid var(--line);
+	}
+
+	.prose :global(h3) {
+		font-size: 19px;
+	}
+
+	.prose :global(h4) {
+		font-size: 16px;
+	}
+
+	.prose :global(p),
+	.prose :global(li) {
+		max-width: none;
+	}
+
+	.prose :global(ul),
+	.prose :global(ol) {
+		padding-left: 1.4em;
+	}
+
+	.prose :global(li + li) {
+		margin-top: 0.3em;
+	}
+
+	.prose :global(a) {
+		text-decoration: underline;
+		text-underline-offset: 3px;
+	}
+
+	.prose :global(:not(pre) > code) {
+		background: var(--panel);
+		border: 1px solid var(--line);
+		border-radius: 3px;
+		padding: 1px 5px;
+		font: 0.88em var(--font-mono);
+		hyphens: none;
+	}
+
+	.prose :global(.shiki) {
 		padding: 1rem;
-		margin: 1rem 0;
+		border-radius: 3px;
+		overflow-x: auto;
+		font: 13px/1.6 var(--font-mono);
+	}
+
+	.prose :global(.shiki code) {
+		font: inherit;
+	}
+
+	.prose :global(table) {
+		display: block;
+		overflow-x: auto;
+		border-collapse: collapse;
+		width: 100%;
+		text-align: left;
+		font-size: 14px;
+	}
+
+	.prose :global(th),
+	.prose :global(td) {
+		padding: 8px 12px;
+		border-bottom: 1px solid var(--line);
+	}
+
+	.prose :global(th) {
+		font: 11px var(--font-mono);
+		text-transform: uppercase;
+		letter-spacing: 0.075em;
+		color: var(--muted);
+	}
+
+	.prose :global(hr) {
+		border: 0;
+		border-top: 1px solid var(--line);
+		margin: 2em 0;
+	}
+
+	.prose :global(blockquote) {
+		margin-left: 0;
+		padding-left: 17px;
+		border-left: 3px solid var(--accent);
+		color: var(--muted);
+	}
+
+	.prose :global(img) {
+		max-width: 100%;
+		height: auto;
 	}
 </style>

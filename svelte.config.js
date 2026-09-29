@@ -25,7 +25,8 @@ const mdsvexOptions = {
 		}
 	},
 	layout: {
-		_: join(layouts_dir, 'Layout.svelte')
+		_: join(layouts_dir, 'Layout.svelte'),
+		tutorials: join(layouts_dir, 'Layout.svelte')
 	}
 };
 

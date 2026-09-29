@@ -9,16 +9,22 @@
 	<title>{config.title} — Talks</title>
 </svelte:head>
 
-<p><a href={resolve('/talks')}>← Talks</a></p>
+<p class="back"><a href={resolve('/talks')}>← Talks & teaching</a></p>
 
 <div class="deck">
 	<iframe src="/decks/{params.slug}/index.html" title="Talk slides" loading="lazy"></iframe>
 </div>
 
 <style>
+	.back {
+		padding: 32px 0 20px;
+		font-size: 13px;
+	}
+
 	.deck {
 		width: 100%;
 		aspect-ratio: 16 / 9;
+		border: 1px solid var(--line);
 	}
 
 	iframe {
