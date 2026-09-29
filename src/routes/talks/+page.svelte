@@ -1,71 +1,36 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
+	import PageHeader from '$lib/PageHeader.svelte';
+	import Row from '$lib/Row.svelte';
+	import SectionHeading from '$lib/SectionHeading.svelte';
+	import { talks, teaching } from '$lib/talks';
 </script>
 
-<h1>Talks and poster presentations</h1>
+<svelte:head><title>Talks & teaching — Marvin van Aalst</title></svelte:head>
 
-<ul>
-	<!-- <li>2026-04: PyCon DE, Darmstadt, Germany</li> -->
-	<!-- <li>2026-05: EuroPython, Darmstadt, Germany</li> -->
-	<li>
-		2026-09: ISGSB (International Study Group for Systems Biology) Ljubljana, Slovenia: <a
-			href={resolve('/talks/[slug]', { slug: '2026-09-isgsb' })}
-			>Making sense of time series with universal differential equations</a
+<PageHeader title="Talks & teaching" subtitle="Posters, talks, workshops and courses." />
+
+<section>
+	<SectionHeading>Talks and poster presentations</SectionHeading>
+	{#each talks as talk (talk.date + talk.title + talk.venue)}
+		<Row
+			eyebrow={talk.date}
+			title={talk.title}
+			href={talk.slug ? resolve('/talks/[slug]', { slug: talk.slug }) : undefined}
+			external={false}>{talk.venue}</Row
 		>
-	</li>
-	<li>2026-05: CCLS Brews and Breakthroughs, Aachen, Germany: Universal differential equations</li>
-	<li>2026-05: internal lab talk: Chill and warm sugars — or how I learned to find the fluxes</li>
-	<li>2026-04: CPBL tool talk: Neural differential equations, take two</li>
-	<li>
-		2026-01: CCLS Symposium, Aachen, Germany: Mechanistic learning in photosynthetic organisms
-	</li>
-	<li>2025-11: CPBL tool talk: Neural & universal differential equations</li>
-	<li>
-		2024-xx: internal (recorded walkthrough): modelbase — constructing modular, reproducible models
-	</li>
-	<li>
-		2024-09: GCB (German Conference on Bioinformatics) Bielefeld, Germany: Automatic kinetic model
-		creation using mxlpy
-	</li>
-	<li>
-		2024-07: ECMTB (European Conference on Mathematical and Theoretical Biology) Toledo, Spain:
-		Secondary carbon-fixation improves photorespiration
-	</li>
-	<li>
-		2024-06: EPS2 (European Congress for Photosynthesis Research) Padova, Italy: Secondary
-		carbon-fixation improves photorespiration
-	</li>
-	<li>
-		2022-09: ISGSB (International Study Group for Systems Biology) Innsbruck, Austria: Optimality
-		principles of leaf venation patterns
-	</li>
-	<li>
-		2021-09: GCB (German Conference on Bioinformatics) Halle, Germany: How to build and analyse
-		mathematical models of biological systems using Python & modelbase (workshop)
-	</li>
-	<li>2021-06: Crops in silico, virtual: Optimality Principles in leaf venation patterns</li>
-	<li>
-		2019-02: MBP (Molecular Biology of Plants) Dabringhausen, Germany: Metabolic Productivity of
-		Photosynthetic glandular trichomes
-	</li>
-	<li>
-		2018-09: ISGSB (International Study Group for Systems Biology) Tromsø, Norway: Optimality
-		principles of leaf venation patterns
-	</li>
-</ul>
+	{/each}
+</section>
 
-<h2>Teaching</h2>
+<section class="teaching">
+	<SectionHeading>Teaching</SectionHeading>
+	{#each teaching as course (course.date + course.title)}
+		<Row eyebrow={course.date} title={course.title} />
+	{/each}
+</section>
 
-<ul>
-	<li>2026-03: JII Open Hackathon Nigeria</li>
-	<li>2025-ws: Machine learning in natural sciences (16.02) at RWTH Aachen</li>
-	<li>2025-ws: Societal challenges datathon (42.17) at RWTH Aachen</li>
-	<li>2025-ss: Interdisciplinary Data Science (16.17) at RWTH Aachen</li>
-	<li>2024-ws: Machine learning in natural sciences (16.02) at RWTH Aachen</li>
-	<li>2023-ws: QBio202 - Deterministic processes in Biology at HHU Düsseldorf</li>
-	<li>2023-08: Embu summer school, Kenya</li>
-	<li>2022-09: Watamu summer school, Kenya</li>
-	<li>2019-ss: M4455 - Mathematical modelling at HHU Düsseldorf</li>
-	<li>2019-ws: BIQ940 - Mathematical modelling at HHU Düsseldorf</li>
-	<li>2018-ws: BIQ940 - Mathematical modelling at HHU Düsseldorf</li>
-</ul>
+<style>
+	.teaching {
+		margin-top: 48px;
+	}
+</style>

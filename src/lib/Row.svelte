@@ -5,16 +5,27 @@
 		eyebrow,
 		title,
 		href,
+		external = true,
 		children
-	}: { eyebrow: string; title: string; href: string; children?: Snippet } = $props();
+	}: {
+		eyebrow: string;
+		title: string;
+		href?: string;
+		external?: boolean;
+		children?: Snippet;
+	} = $props();
 </script>
 
 <div class="row">
 	<span class="eyebrow muted">{eyebrow}</span>
 	<div>
-		<!-- Rows link to external URLs (DOIs) or to already-resolved routes. -->
-		<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
-		<a {href}>{title} <span>↗</span></a>
+		{#if href}
+			<!-- Rows link to external URLs (DOIs) or to already-resolved routes. -->
+			<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
+			<a {href}>{title} <span>{external ? '↗' : '→'}</span></a>
+		{:else}
+			<span class="title">{title}</span>
+		{/if}
 		{#if children}<p class="muted">{@render children()}</p>{/if}
 	</div>
 </div>
@@ -35,6 +46,10 @@
 
 	a span {
 		color: var(--accent);
+	}
+
+	.title {
+		max-width: 65ch;
 	}
 
 	p {
