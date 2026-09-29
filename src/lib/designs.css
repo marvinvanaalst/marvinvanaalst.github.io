@@ -389,6 +389,23 @@ body.container:has(.design-preview) {
 	padding-left: 17px;
 	border-left: 3px solid var(--accent);
 }
+.precision .hero-portrait {
+	display: block;
+	width: 104px;
+	height: 104px;
+	margin-bottom: 26px;
+	border-radius: 50%;
+	object-fit: cover;
+	border: 3px solid var(--paper);
+	box-shadow: 0 0 0 2px var(--accent);
+}
+@media (max-width: 760px) {
+	.precision .hero-portrait {
+		width: 84px;
+		height: 84px;
+		margin-bottom: 20px;
+	}
+}
 .precision .model {
 	background: transparent;
 	border: 0;
