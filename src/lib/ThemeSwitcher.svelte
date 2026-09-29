@@ -7,7 +7,7 @@
 	let systemDark = $state(false);
 
 	const isDark = $derived(theme === 'auto' ? systemDark : theme === 'dark');
-	const icon = $derived(theme === 'auto' ? '◐' : isDark ? '☀' : '☾');
+	const label = $derived(isDark ? 'Light' : 'Dark');
 	const title = $derived(
 		theme === 'auto'
 			? 'Following system theme (click to override)'
@@ -35,7 +35,7 @@
 	}
 </script>
 
-<button onclick={toggle} {title} aria-label={title}>{icon}</button>
+<button onclick={toggle} {title} aria-label={title}>{label}</button>
 
 <style>
 	button {
@@ -45,8 +45,7 @@
 		background: transparent;
 		color: var(--text);
 		padding: 3px 9px;
-		font: inherit;
-		font-size: 13px;
+		font: 12px/1.5 var(--font-mono);
 		cursor: pointer;
 	}
 
