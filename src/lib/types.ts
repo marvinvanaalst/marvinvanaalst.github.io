@@ -17,9 +17,12 @@ export type Publication = {
 };
 
 export type SoftwareProject = {
-	title: string;
+	name: string;
+	tag: string;
+	lang: string;
+	summary: string;
 	description: string;
-	github?: string;
-	gitlab?: string;
+	repo: string;
 	doi?: string;
+	featured?: boolean;
 };
