@@ -59,7 +59,6 @@ Leaky-integrator [echo state networks (Jaeger et al., 2007)](https://doi.org/10.
 
 This one surprised me more. A popular way to model causality in a dynamical system is a _dynamic Bayesian network_ or time-unrolled structural causal model: `X_{t+1}` gets `X_t` and its causal parents as arrows into it. [Rubenstein et al. (2018)](https://arxiv.org/abs/1608.08028) note that to get such a model from an ODE, you approximate the continuous system with the Euler method, and the only real design choice is how fine `Δ` should be. [Hansen & Sokol (2014)](https://arxiv.org/abs/1304.0217) justify their definition of interventions on SDEs by showing that it equals the limit of interventions on the structural equation models built from the Euler scheme, as the step size goes to zero. The neat result: the graph-like picture is only exact in the limit where it stops being a graph you can draw. (The more principled route from equilibria of ODEs to SCMs is [Mooij, Janzing & Schölkopf (2013)](https://arxiv.org/abs/1304.7920). It avoids discretisation entirely by only looking at steady states.)
 
-
 ## How bad is "bad"?
 
 Here are two of the systems from earlier posts, solved exactly and with forward Euler:
@@ -89,7 +88,6 @@ Taking a beautiful continuous-time model and simulating it with the integrator f
 3. **Gradients are trivial.** Backpropagating through `x + h·f(x)` is easy. Adaptive solvers with error control bring step-size logic, rejected steps and adjoint methods into the training loop.
 4. **The ODE view earns its keep anyway.** Even when nobody integrates accurately, the continuous picture tells you _what can go wrong_: exploding and vanishing dynamics, stability regions, oversmoothing. Stability analysis is something numerical analysts have been doing since long before deep learning.
 
-The punchline, though, is that whenever someone took the "it's a differential equation" claim seriously and swapped in a better integrator, things got better. Macaron Net beat the transformer. GRAND trained deeper GNNs with Runge–Kutta. Karras et al. sampled diffusion models in far fewer steps with Heun. AntisymmetricRNN had to patch around Euler's stability region. Linear state-space models like [S4 (Gu et al., 2022)](https://arxiv.org/abs/2111.00396) skip Euler entirely and use exact zero-order-hold or bilinear discretisations of a linear ODE.
+The punchline, though, is that whenever someone took the "it's a differential equation" claim seriously and swapped in a better integrator, things got better, or at least the integrator stopped getting in the way. AntisymmetricRNN had to patch around Euler's stability region. Linear state-space models like [S4 (Gu et al., 2022)](https://arxiv.org/abs/2111.00396) skip Euler entirely and use exact zero-order-hold or bilinear discretisations of a linear ODE.
 
 So "it's just like a differential equation" is usually true and usually useful. It's just that the second half of the sentence, "...and we integrate it like it's 1768", tends to get left out.
-
