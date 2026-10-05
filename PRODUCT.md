@@ -62,4 +62,4 @@ A scientist who builds the tools as well as using them. His software (MxlPy, mod
 
 ## Accessibility & Inclusion
 
-The user confirmed there is an accessibility target but hasn't named the standard. *Open decision:* WCAG 2.2 AA is the likely baseline and needs confirming. The site must work in both light and dark themes.
+The user confirmed there is an accessibility target but hasn't named the standard. _Open decision:_ WCAG 2.2 AA is the likely baseline and needs confirming. The site must work in both light and dark themes.
