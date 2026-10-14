@@ -1,4 +1,4 @@
-import { dev } from '$app/environment';
+import { dev } from '$app/env';
 
 export const title = 'Marvin van Aalst';
 export const description = 'Academic page of Dr. Marvin van Aalst';

@@ -1,7 +1,7 @@
 <script lang="ts">
-	import PageHeader from '$lib/PageHeader.svelte';
-	import ProjectBlock from '$lib/ProjectBlock.svelte';
-	import { software } from '$lib/software';
+	import PageHeader from '#lib/PageHeader.svelte';
+	import ProjectBlock from '#lib/ProjectBlock.svelte';
+	import { software } from '#lib/software.js';
 </script>
 
 <svelte:head><title>Software — Marvin van Aalst</title></svelte:head>

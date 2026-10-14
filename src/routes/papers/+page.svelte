@@ -1,7 +1,7 @@
 <script lang="ts">
-	import PageHeader from '$lib/PageHeader.svelte';
-	import Row from '$lib/Row.svelte';
-	import json from '$lib/publications.json';
+	import PageHeader from '#lib/PageHeader.svelte';
+	import Row from '#lib/Row.svelte';
+	import json from '#lib/publications.json';
 </script>
 
 <svelte:head><title>Research — Marvin van Aalst</title></svelte:head>

@@ -1,9 +1,9 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
-	import PageHeader from '$lib/PageHeader.svelte';
-	import Row from '$lib/Row.svelte';
-	import * as config from '$lib/config';
-	import { formatDate } from '$lib/utils';
+	import PageHeader from '#lib/PageHeader.svelte';
+	import Row from '#lib/Row.svelte';
+	import * as config from '#lib/config.js';
+	import { formatDate } from '#lib/utils.js';
 
 	let { data } = $props();
 </script>

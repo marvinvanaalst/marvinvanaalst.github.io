@@ -1,6 +1,6 @@
 <script lang="ts">
-	import PageHeader from '$lib/PageHeader.svelte';
-	import { formatDate } from '$lib/utils';
+	import PageHeader from '#lib/PageHeader.svelte';
+	import { formatDate } from '#lib/utils.js';
 
 	let { data } = $props();
 </script>

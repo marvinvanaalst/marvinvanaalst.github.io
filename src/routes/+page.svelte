@@ -1,10 +1,10 @@
 <script lang="ts">
 	import { asset, resolve } from '$app/paths';
-	import ProjectBlock from '$lib/ProjectBlock.svelte';
-	import Row from '$lib/Row.svelte';
-	import SectionHeading from '$lib/SectionHeading.svelte';
-	import publications from '$lib/publications.json';
-	import { software } from '$lib/software';
+	import ProjectBlock from '#lib/ProjectBlock.svelte';
+	import Row from '#lib/Row.svelte';
+	import SectionHeading from '#lib/SectionHeading.svelte';
+	import publications from '#lib/publications.json';
+	import { software } from '#lib/software.js';
 
 	const featured = software.filter((project) => project.featured);
 	const recent = [...publications].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 2);
@@ -14,7 +14,7 @@
 	<div class="hero-copy">
 		<img
 			class="portrait"
-			src={asset('/profile.jpg')}
+			src={asset('profile.jpg')}
 			alt="Marvin van Aalst"
 			width="104"
 			height="104"
@@ -103,7 +103,7 @@
 </section>
 
 <section class="identity" aria-label="About me">
-	<img src={asset('/profile.jpg')} alt="" width="75" height="75" />
+	<img src={asset('profile.jpg')} alt="" width="75" height="75" />
 	<p class="muted">RWTH Aachen University<br />Computational Life Science</p>
 	<div class="profile-links">
 		<a href="https://github.com/marvinvanaalst/">GitHub ↗</a>

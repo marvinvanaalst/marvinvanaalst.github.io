@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
-	import * as config from '$lib/config';
+	import * as config from '#lib/config.js';
 
 	let { params } = $props();
 </script>

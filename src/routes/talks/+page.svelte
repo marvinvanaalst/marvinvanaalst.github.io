@@ -1,9 +1,9 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
-	import PageHeader from '$lib/PageHeader.svelte';
-	import Row from '$lib/Row.svelte';
-	import SectionHeading from '$lib/SectionHeading.svelte';
-	import { talks, teaching } from '$lib/talks';
+	import PageHeader from '#lib/PageHeader.svelte';
+	import Row from '#lib/Row.svelte';
+	import SectionHeading from '#lib/SectionHeading.svelte';
+	import { talks, teaching } from '#lib/talks.js';
 </script>
 
 <svelte:head><title>Talks & teaching — Marvin van Aalst</title></svelte:head>

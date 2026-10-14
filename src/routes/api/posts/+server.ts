@@ -1,5 +1,4 @@
-import type { Post } from '$lib/types';
-import { json } from '@sveltejs/kit';
+import type { Post } from '#lib/types.js';
 
 async function getPosts() {
 	let posts: Post[] = [];
@@ -26,5 +25,5 @@ async function getPosts() {
 
 export async function GET() {
 	const posts = await getPosts();
-	return json(posts);
+	return Response.json(posts);
 }
