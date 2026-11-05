@@ -13,7 +13,17 @@ const layouts_dir = join(__dirname, './src/lib/mdpages');
 
 const highlighter = await createHighlighter({
 	themes: ['poimandres'],
-	langs: ['javascript', 'typescript', 'python', 'rust', 'c', 'cpp', 'julia', 'fortran-free-form', 'toml']
+	langs: [
+		'javascript',
+		'typescript',
+		'python',
+		'rust',
+		'c',
+		'cpp',
+		'julia',
+		'fortran-free-form',
+		'toml'
+	]
 });
 
 const mdsvexOptions: MdsvexOptions = {

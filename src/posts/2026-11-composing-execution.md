@@ -68,13 +68,13 @@ The sixth criterion is easy to forget, because the first five are about correctn
 
 Each layer has its natural ways to express a decision, and the mechanism follows from who knows the answer:
 
-| Mechanism                        | Use when                                                           | Layer       | Examples                                            |
-| -------------------------------- | ------------------------------------------------------------------ | ----------- | --------------------------------------------------- |
-| An explicit argument (injection) | the caller knows, and the choice varies per call                   | algorithmic | solver algorithms, random keys, allocators          |
-| The data                         | it is a property of the data                                       | algorithmic | device, layout, shape                               |
-| Declared variants with costs     | several algorithms compute the same thing at different costs       | algorithmic | serial vs parallel scan, blocked vs unblocked       |
-| The runtime                      | it is state that changes from moment to moment                     | execution   | free workers, load                                  |
-| The compiler or build            | it is a property of the machine, or follows from sizes in types    | execution   | instruction set variants, block sizes               |
+| Mechanism                        | Use when                                                           | Layer       | Examples                                              |
+| -------------------------------- | ------------------------------------------------------------------ | ----------- | ----------------------------------------------------- |
+| An explicit argument (injection) | the caller knows, and the choice varies per call                   | algorithmic | solver algorithms, random keys, allocators            |
+| The data                         | it is a property of the data                                       | algorithmic | device, layout, shape                                 |
+| Declared variants with costs     | several algorithms compute the same thing at different costs       | algorithmic | serial vs parallel scan, blocked vs unblocked         |
+| The runtime                      | it is state that changes from moment to moment                     | execution   | free workers, load                                    |
+| The compiler or build            | it is a property of the machine, or follows from sizes in types    | execution   | instruction set variants, block sizes                 |
 | A scoped execution context       | it covers a whole subtree, across libraries, and changes no result | application | worker limits, latency vs throughput, allowed devices |
 
 Note the first row: injection is often the _right_ answer. What goes wrong in practice is injecting something that fails one of the six criteria.
@@ -361,12 +361,12 @@ The layers so far assume one machine. Native code is also where MPI clusters, mu
 
 Handing execution decisions to other parties is only safe if they can't change what the program computes. Every ecosystem that got parallelism or caching "for free" learned this the hard way:
 
-| Where execution leaked into results                                  | The fix                                                       |
-| -------------------------------------------------------------------- | ------------------------------------------------------------- |
-| Per-thread RNGs made streams depend on scheduling (Julia before 1.7) | Counter-based keys derived from the index                     |
-| Parallel float reductions vary with thread count (OpenMP)            | A fixed summation tree, independent of the number of workers  |
-| FMA contraction depends on the build target (`-march=native`)        | Contraction is opt-in and visible                             |
-| `autocast` changes dtypes in a scope (PyTorch)                       | Precision in types; scoped settings never change results      |
+| Where execution leaked into results                                  | The fix                                                      |
+| -------------------------------------------------------------------- | ------------------------------------------------------------ |
+| Per-thread RNGs made streams depend on scheduling (Julia before 1.7) | Counter-based keys derived from the index                    |
+| Parallel float reductions vary with thread count (OpenMP)            | A fixed summation tree, independent of the number of workers |
+| FMA contraction depends on the build target (`-march=native`)        | Contraction is opt-in and visible                            |
+| `autocast` changes dtypes in a scope (PyTorch)                       | Precision in types; scoped settings never change results     |
 
 How strong should this guarantee be? I think it has to be tiered, because full reproducibility everywhere is expensive.
 
@@ -424,16 +424,16 @@ With value semantics and structured concurrency, most of these go away, and what
 
 ## Defaults for everyone, overrides for experts
 
-| Strategy       | Default (no thought needed)                                  | Override, and which layer holds it                               |
-| -------------- | ------------------------------------------------------------ | ---------------------------------------------------------------- |
-| Device         | wherever the data is                                         | explicit upload/download through a device handle: algorithmic   |
-| Workers        | sequential unless a region is written; all free workers when it is | execution context and build configuration: application     |
-| Variant        | chosen from declared costs and free workers                  | pinning a variant at the call: algorithmic                       |
-| Block size     | the execution layer's choice                                 | pinning a size at the call; tuning: execution                    |
-| Lanes          | the best result-preserving variant for the machine           | relaxed variants, for callers that opt in: algorithmic           |
-| Random streams | none: keys are always explicit                               | seeding, `fold_in`, `split`: algorithmic                         |
-| Foreign pools  | lent a share of the budget per call                          | process isolation for uncontrollable libraries: application     |
-| Reproducibility | same bits for any worker count, on one target              | cross-target reproducibility as an objective: application        |
+| Strategy        | Default (no thought needed)                                        | Override, and which layer holds it                            |
+| --------------- | ------------------------------------------------------------------ | ------------------------------------------------------------- |
+| Device          | wherever the data is                                               | explicit upload/download through a device handle: algorithmic |
+| Workers         | sequential unless a region is written; all free workers when it is | execution context and build configuration: application        |
+| Variant         | chosen from declared costs and free workers                        | pinning a variant at the call: algorithmic                    |
+| Block size      | the execution layer's choice                                       | pinning a size at the call; tuning: execution                 |
+| Lanes           | the best result-preserving variant for the machine                 | relaxed variants, for callers that opt in: algorithmic        |
+| Random streams  | none: keys are always explicit                                     | seeding, `fold_in`, `split`: algorithmic                      |
+| Foreign pools   | lent a share of the budget per call                                | process isolation for uncontrollable libraries: application   |
+| Reproducibility | same bits for any worker count, on one target                      | cross-target reproducibility as an objective: application     |
 
 Library code holds none of the program-wide overrides. A library says _what_ it computes, _where its independent work is_ and _what the alternatives cost_. Whoever knows the rest decides the rest.
 
