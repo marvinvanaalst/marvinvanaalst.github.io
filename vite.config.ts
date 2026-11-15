@@ -1,7 +1,9 @@
 import adapter from '@sveltejs/adapter-static';
 import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 import { escapeSvelte, mdsvex, type MdsvexOptions } from 'mdsvex';
+import remarkMath from 'remark-math';
 import { createHighlighter } from 'shiki';
+import { remarkHeadings, remarkKatex } from './src/lib/mdpages/remark-plugins.ts';
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
 import { sveltekit } from '@sveltejs/kit/vite';
@@ -28,6 +30,7 @@ const highlighter = await createHighlighter({
 
 const mdsvexOptions: MdsvexOptions = {
 	extensions: ['.md'],
+	remarkPlugins: [remarkMath, remarkHeadings, remarkKatex],
 	highlight: {
 		highlighter: (code, lang = 'text') => {
 			const html = escapeSvelte(
@@ -38,7 +41,8 @@ const mdsvexOptions: MdsvexOptions = {
 	},
 	layout: {
 		_: join(layouts_dir, 'Layout.svelte'),
-		tutorials: join(layouts_dir, 'Layout.svelte')
+		tutorials: join(layouts_dir, 'Layout.svelte'),
+		ref: join(layouts_dir, 'RefLayout.svelte')
 	}
 };
 

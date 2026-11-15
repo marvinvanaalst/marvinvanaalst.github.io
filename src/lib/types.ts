@@ -26,3 +26,21 @@ export type SoftwareProject = {
 	doi?: string;
 	featured?: boolean;
 };
+
+export type RefSection = {
+	id: string;
+	title: string;
+	blurb: string;
+};
+
+export type RefPage = {
+	section: string;
+	slug: string;
+	title: string;
+	description: string;
+	aliases: string[];
+	tags: string[];
+	order: number;
+	updated: string;
+	published: boolean;
+};

@@ -28,6 +28,7 @@ A scientist who builds the tools as well as using them. His software (MxlPy, mod
 - Sections: Home (intro plus a short CV), Papers, Software, Talks & Teaching, Blog.
 - Visitors often arrive from external profiles (ORCID, Google Scholar, GitHub, GitLab, RWTH lab page) and follow links back out to them.
 - Tutorials (the blog) are an occasional extra: worked mxlpy modelling examples, not a growing centerpiece.
+- Reference (`/ref`, footer link only) is Marvin's personal quick-refresher on numerical methods and maths, organised by task. Its audience is himself; it is public but kept out of the main nav. Backlog and conventions are in `REF-TODO.md`.
 
 ## Capabilities and Constraints
 
