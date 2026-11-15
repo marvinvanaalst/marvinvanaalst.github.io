@@ -14,6 +14,7 @@ export type Publication = {
 	date: string;
 	doi: string;
 	authors: string[];
+	preprint: boolean;
 };
 
 export type SoftwareProject = {

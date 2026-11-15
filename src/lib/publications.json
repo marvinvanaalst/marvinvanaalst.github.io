@@ -1,9 +1,147 @@
 [
 	{
+		"title": "When Everyone Can Build a Model: Mechanistic Inference in the Age of AI",
+		"date": "2026-10-30",
+		"doi": "https://doi.org/10.48550/arxiv.2610.41454",
+		"authors": ["Marvin van Aalst", "Adèle H. Ribeiro", "Anna Matuszyńska"],
+		"preprint": true
+	},
+	{
+		"title": "Hackathons as effective pedagogical tools in interdisciplinary biological training: report from two training programs for sub-Saharan African students",
+		"date": "2026-08-13",
+		"doi": "https://doi.org/10.1080/00219266.2026.2710440",
+		"authors": [
+			"Marvin van Aalst",
+			"Tobias Pfennig",
+			"Faraimunashe Chirove",
+			"Marilyn Ronoh",
+			"Anna Matuszyńska"
+		],
+		"preprint": false
+	},
+	{
+		"title": "Chilling Nights Do Not Cause Starch Over-Accumulation and Trigger a Shift in Carbon Partitioning via SPS Toward Sucrose in Arabidopsis - Differing from Acclimation to Permanent Cold",
+		"date": "2026-08-03",
+		"doi": "https://doi.org/10.64898/2026.07.31.741842",
+		"authors": [
+			"Christina Bonn",
+			"Oliver Giesbrecht",
+			"Angelina Jordine",
+			"Mona Becker",
+			"Sofie Jennings",
+			"Marvin van Aalst",
+			"Joost Thomas van Dongen",
+			"Anna Matuszyńska",
+			"Lisa Fürtauer"
+		],
+		"preprint": true
+	},
+	{
+		"title": "From Field Photosynthesis to Genetic Architecture: Insights from the First Dedicated Photosynthesis Hackathon",
+		"date": "2026-07-28",
+		"doi": "https://doi.org/10.64898/2026.07.24.740625",
+		"authors": [
+			"Anna Matuszyńska",
+			"Olakunle Sansa",
+			"Femi James Adekoya",
+			"Olusegun Olaitan Akinyemi",
+			"Esther Anokye",
+			"Olukunle Babatunde Bashir",
+			"Zsa Zsa Friederique Boyny",
+			"Mkpuma Kenneth Chukwuka",
+			"Elouën Corvest",
+			"Adenike Oluwaseun Dada",
+			"Matteo Dell’Acqua",
+			"Georgina Lala Ehemba",
+			"Andris Justin Finkbeiner",
+			"Swivia M. Hamabwe",
+			"Djidjoho A.T. Hodehou",
+			"Olivia Cynthia Kacheyo",
+			"Kelvin Kamfwa",
+			"Kanthu J. Mhango",
+			"Wajiha Mu’az Abdullahi",
+			"Gideon Munduwe",
+			"Solomon Ntukidem",
+			"Olalekan K Obisesan",
+			"Ifeoluwa Simeon Odesina",
+			"Nwogu-Uchenna Ogechi",
+			"Omotola Dorcas Olaoye",
+			"Mary Morenike Olayinka",
+			"Isaac Osei‐Bonsu",
+			"Kolawale Olalekan Rilwan",
+			"Leandro Stival",
+			"Zeynu Tehar",
+			"Regina Mumbua Tende",
+			"Jacky To",
+			"Kelechi Uchendu",
+			"Anika Unger",
+			"Marvin van Aalst",
+			"Dominik Vrbic",
+			"Chao Zhang",
+			"Tom P. J. M. Theeuwen",
+			"David Kramer",
+			"Johannes Kromdijk"
+		],
+		"preprint": true
+	},
+	{
+		"title": "GreenSloth: a curated database and executable platform for mechanistic photosynthesis models",
+		"date": "2026-07-26",
+		"doi": "https://doi.org/10.64898/2026.07.22.740007",
+		"authors": [
+			"Elouën Corvest",
+			"Marvin van Aalst",
+			"Tim Nies",
+			"Quang Huy Nguyen",
+			"Josha Ebeling",
+			"Maja Strauch",
+			"El-Hadji Malick Cisse",
+			"Tanvir Hassan",
+			"Anna Matuszyńska"
+		],
+		"preprint": true
+	},
+	{
+		"title": "Web-based collaborative model development in interdisciplinary consortia: Design principles and practical guidance",
+		"date": "2026-06-23",
+		"doi": "https://doi.org/10.1371/journal.pbio.3003825",
+		"authors": [
+			"Marvin van Aalst",
+			"Aliénor Lahlou",
+			"Tanvir Hassan",
+			"William Gaultier",
+			"David Colliaux",
+			"Anna Matuszyńska"
+		],
+		"preprint": false
+	},
+	{
+		"title": "Web-based collaborative model development in interdisciplinary consortia: design principles and practical guidance. Technical Supportive Information",
+		"date": "2026-02-20",
+		"doi": "https://doi.org/10.5281/zenodo.18715169",
+		"authors": [
+			"Aliénor Lahlou",
+			"Marvin van Aalst",
+			"Tanvir Hassan",
+			"William Gaultier",
+			"David Colliaux",
+			"Anna Matuszyńska"
+		],
+		"preprint": false
+	},
+	{
+		"title": "MxlPy - Python Package for Mechanistic Learning and Hybrid Modelling in Life Science",
+		"date": "2025-11-03",
+		"doi": "https://doi.org/10.5281/zenodo.17512019",
+		"authors": ["Marvin van Aalst", "Tim Nies", "Tobias Pfennig", "Anna Matuszyńska"],
+		"preprint": false
+	},
+	{
 		"title": "MxlPy - Python Package for Mechanistic Learning in Life Science",
 		"date": "2025-05-10",
 		"doi": "https://doi.org/10.1101/2025.05.06.652335",
-		"authors": ["Marvin van Aalst", "Tim Nies", "Tobias Pfennig", "Anna Matuszy\u0144ska"]
+		"authors": ["Marvin van Aalst", "Tim Nies", "Tobias Pfennig", "Anna Matuszyńska"],
+		"preprint": true
 	},
 	{
 		"title": "Hackathons as essential tools in an interdisciplinary biological training - report from trainings for Sub-saharan students",
@@ -14,8 +152,9 @@
 			"Tobias Pfennig",
 			"Faraimunashe Chirove",
 			"Marilyn Ronoh",
-			"Anna Matuszy\u0144ska"
-		]
+			"Anna Matuszyńska"
+		],
+		"preprint": true
 	},
 	{
 		"title": "Alternatives to photorespiration: A system-level analysis reveals mechanisms of enhanced plant productivity",
@@ -24,10 +163,18 @@
 		"authors": [
 			"Edward N. Smith",
 			"Marvin van Aalst",
-			"Andreas P. M. Weber",
-			"Oliver Ebenh\u00f6h",
+			"Andreas P.M. Weber",
+			"Oliver Ebenhöh",
 			"Matthias Heinemann"
-		]
+		],
+		"preprint": false
+	},
+	{
+		"title": "MxlPy—Python package for mechanistic learning and hybrid modelling in life science",
+		"date": "2024-12-26",
+		"doi": "https://doi.org/10.1093/bioadv/vbaf294",
+		"authors": ["Marvin van Aalst", "Tim Nies", "Tobias Pfennig", "Anna Matuszyńska"],
+		"preprint": false
 	},
 	{
 		"title": "Rule-Based Deconstruction and Reconstruction of Diterpene Libraries: Categorizing Patterns & Unravelling the Structural Landscape",
@@ -40,28 +187,38 @@
 			"Kevin M. Shebek",
 			"Lucas Busta",
 			"Nicole Babineau",
-			"Oliver Ebenh\u00f6h",
-			"Bj\u00f6rn Hamberger"
-		]
+			"Oliver Ebenhöh",
+			"Björn Hamberger"
+		],
+		"preprint": true
 	},
 	{
 		"title": "Computational Photosynthesis (ComPhot): Simulation-Based Learning Platform to Study Photosynthesis",
 		"date": "2024-05-31",
-		"doi": "http://dx.doi.org/10.1093/plcell/koae101",
+		"doi": "https://doi.org/10.1093/plcell/koae101",
 		"authors": [
 			"Sarah Philipps",
 			"Tobias Pfennig",
-			"Elou\u00ebn Corvest",
+			"Elouën Corvest",
 			"Marvin van Aalst",
-			"Lisa F\u00fcrtauer",
-			"Anna Matuszy\u0144ska"
-		]
+			"Lisa Fürtauer",
+			"Anna Matuszyńska"
+		],
+		"preprint": false
+	},
+	{
+		"title": "Reaction-Kinetic Modeling of Photorespiration Using Modelbase",
+		"date": "2024-01-01",
+		"doi": "https://doi.org/10.1007/978-1-0716-3802-6_18",
+		"authors": ["Tim Nies", "Marvin van Aalst"],
+		"preprint": false
 	},
 	{
 		"title": "dismo: building and analysing discrete spatial ODE models",
 		"date": "2023-10-23",
 		"doi": "https://doi.org/10.1101/2023.10.17.562679",
-		"authors": ["Marvin van Aalst", "Oliver Ebenh\u00f6h"]
+		"authors": ["Marvin van Aalst", "Oliver Ebenhöh"],
+		"preprint": true
 	},
 	{
 		"title": "Improving photosynthetic efficiency toward food security: Strategies, advances, and perspectives",
@@ -71,108 +228,132 @@
 			"Edward N. Smith",
 			"Marvin van Aalst",
 			"Tiina Tosens",
-			"\u00dclo Niinemets",
+			"Ülo Niinemets",
 			"Benjamin Stich",
 			"Tomas Morosinotto",
 			"Alessandro Alboresi",
 			"Tobias J. Erb",
-			"Paul A. G\u00f3mez-Coronado",
+			"Paul A. Gómez-Coronado",
 			"Dimitri Tolleter",
 			"Giovanni Finazzi",
 			"Gilles Curien",
 			"Matthias Heinemann",
-			"Oliver Ebenh\u00f6h",
+			"Oliver Ebenhöh",
 			"Julian M. Hibberd",
-			"Urte Schl\u00fcter",
+			"Urte Schlüter",
 			"Tianshu Sun",
 			"Andreas P.M. Weber"
-		]
+		],
+		"preprint": false
+	},
+	{
+		"title": "What controls carbon sequestration in plants under which conditions?",
+		"date": "2023-07-05",
+		"doi": "https://doi.org/10.1016/j.biosystems.2023.104968",
+		"authors": [
+			"Tim Nies",
+			"Marvin van Aalst",
+			"Nima P. Saadat",
+			"Josha Ebeling",
+			"Oliver Ebenhöh"
+		],
+		"preprint": false
 	},
 	{
 		"title": "Shifts in carbon partitioning by photosynthetic activity increase terpenoid synthesis in glandular trichomes",
 		"date": "2023-06-20",
-		"doi": "http://dx.doi.org/10.1111/tpj.16352",
+		"doi": "https://doi.org/10.1111/tpj.16352",
 		"authors": [
 			"Nima P. Saadat",
 			"Marvin van Aalst",
 			"Alejandro Brand",
-			"Oliver Ebenh\u00f6h",
-			"Alain Tissier",
-			"Anna B. Matuszy\u0144ska"
-		]
-	},
-	{
-		"title": "What controls carbon sequestration in plants under which conditions?",
-		"date": "2023-04-21",
-		"doi": "https://doi.org/10.1101/2023.04.20.537672",
-		"authors": [
-			"Tim Nies",
-			"Marvin van Aalst",
-			"Nima Saadat",
-			"Josha Ebeling",
-			"Oliver Ebenh\u00f6h"
-		]
+			"Oliver Ebenhöh",
+			"Alain F. Tissier",
+			"Anna Matuszyńska"
+		],
+		"preprint": false
 	},
 	{
 		"title": "Approximating carbon fixation - how important is the Calvin-Benson cycle steady-state assumption?",
 		"date": "2022-11-20",
 		"doi": "https://doi.org/10.1101/2022.11.18.517021",
-		"authors": ["Marvin van Aalst", "Oliver Ebenh\u00f6h", "Berkley J. Walker"]
-	},
-	{
-		"title": "Shifts in carbon partitioning by photosynthetic activity increase terpenoid synthesis in glandular trichomes",
-		"date": "2022-09-30",
-		"doi": "https://doi.org/10.1101/2022.09.29.510054",
-		"authors": [
-			"Nima P. Saadat",
-			"Marvin van Aalst",
-			"Alejandro Brand",
-			"Oliver Ebenh\u00f6h",
-			"Alain Tissier",
-			"Anna B. Matuszy\u0144ska"
-		]
+		"authors": ["Marvin van Aalst", "Oliver Ebenhöh", "Berkley James Walker"],
+		"preprint": true
 	},
 	{
 		"title": "Network Reconstruction and Modelling Made Reproducible with moped",
 		"date": "2022-03-22",
 		"doi": "https://doi.org/10.3390/metabo12040275",
-		"authors": ["Nima P. Saadat", "Marvin van Aalst", "Oliver Ebenh\u00f6h"]
+		"authors": ["Nima P. Saadat", "Marvin van Aalst", "Oliver Ebenhöh"],
+		"preprint": false
 	},
 	{
 		"title": "COBREXA.jl: constraint-based reconstruction and exascale analysis",
-		"date": "2021-06-07",
-		"doi": "https://doi.org/10.1101/2021.06.04.447038",
+		"date": "2021-11-10",
+		"doi": "https://doi.org/10.1093/bioinformatics/btab782",
 		"authors": [
-			"Miroslav Kratochv\u00edl",
+			"Miroslav Kratochvíl",
 			"Laurent Heirendt",
 			"St. Elmo Wilken",
 			"Taneli Pusa",
 			"Sylvain Arreckx",
 			"Alberto Noronha",
 			"Marvin van Aalst",
-			"Venkata P Satagopam",
-			"Oliver Ebenh\u00f6h",
+			"Venkata Satagopam",
+			"Oliver Ebenhöh",
 			"Reinhard Schneider",
 			"Christophe Trefois",
 			"Wei Gu"
-		]
+		],
+		"preprint": false
+	},
+	{
+		"title": "Computational Analysis of Alternative Photosynthetic Electron Flows Linked With Oxidative Stress",
+		"date": "2021-10-22",
+		"doi": "https://doi.org/10.3389/fpls.2021.750580",
+		"authors": [
+			"Nima P. Saadat",
+			"Tim Nies",
+			"Marvin van Aalst",
+			"Brandon Hank",
+			"Büsra Demirtas",
+			"Oliver Ebenhöh",
+			"Anna Matuszyńska"
+		],
+		"preprint": false
+	},
+	{
+		"title": "Constructing and analysing dynamic models with modelbase v1.2.3: a software update",
+		"date": "2021-04-20",
+		"doi": "https://doi.org/10.1186/s12859-021-04122-7",
+		"authors": ["Marvin van Aalst", "Oliver Ebenhöh", "Anna Matuszyńska"],
+		"preprint": false
 	},
 	{
 		"title": "moped - A Python package for metabolic modelling and topological analysis",
 		"date": "2020-12-06",
 		"doi": "http://dx.doi.org/10.1101/2020.12.04.411512",
-		"authors": []
+		"authors": [],
+		"preprint": true
 	},
 	{
 		"title": "Building Mathematical Models of Biological Systems with modelbase",
 		"date": "2018-11-16",
-		"doi": "http://dx.doi.org/10.5334/jors.236",
-		"authors": []
+		"doi": "https://doi.org/10.5334/jors.236",
+		"authors": [
+			"Oliver Ebenhöh",
+			"Marvin van Aalst",
+			"Nima P. Saadat",
+			"Tim Nies",
+			"Anna Matuszyńska"
+		],
+		"preprint": false
 	},
 	{
 		"title": "Building mathematical models of biological systems with modelbase, a Python package for semi-automatic ODE assembly and construction of isotope-specific models",
 		"date": "2018-07-05",
 		"doi": "http://dx.doi.org/10.1101/362954",
-		"authors": []
+		"authors": [],
+		"preprint": true
 	}
 ]
