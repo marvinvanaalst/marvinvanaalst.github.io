@@ -81,7 +81,7 @@ $A = QR$ with orthogonal $Q$, built from reflectors $H = I - 2vv^\top / v^\top v
 
 - **Solve:** $Rx = Q^\top b$. Apply the reflectors to $b$ instead of forming $Q$.
 - **Why:** orthogonal transforms don't amplify errors, so QR is the safe choice when $\kappa(A)$ is large.
-- The standard for least squares (see the least-squares page).
+- The standard for least squares (see [least squares](/ref/solve/least-squares)).
 - Column pivoting (`geqp3`) reveals the numerical rank.
 
 ### Banded and tridiagonal
@@ -100,7 +100,7 @@ The same factorisations, but cost and memory are set by **fill-in**: zeros that 
 2. **Symbolic phase:** compute the sparsity pattern of the factors. Done once per pattern.
 3. **Numeric phase:** compute the values.
 
-Implicit ODE solvers and Newton loops refactor matrices with the same pattern, so reuse the symbolic phase. Details are on the sparse-matrices page.
+Implicit ODE solvers and Newton loops refactor matrices with the same pattern, so reuse the symbolic phase. Details are on the [sparse matrices](/ref/solve/sparse-matrices) page.
 
 ### Iterative (pointer)
 
@@ -110,7 +110,7 @@ When factorising is too expensive in memory, use Krylov methods:
 - MINRES for symmetric indefinite.
 - GMRES / BiCGSTAB for general matrices.
 
-Each iteration costs one matrix-vector product. CG needs roughly $\sqrt{\kappa}\,\log(1/\varepsilon)$ iterations, so the preconditioner is the whole game. See the Krylov-and-preconditioning page.
+Each iteration costs one matrix-vector product. CG needs roughly $\sqrt{\kappa}\,\log(1/\varepsilon)$ iterations, so the preconditioner is the whole game. See [Krylov methods & preconditioning](/ref/solve/krylov-preconditioning).
 
 ### Useful tricks
 
@@ -147,11 +147,11 @@ Each iteration costs one matrix-vector product. CG needs roughly $\sqrt{\kappa}\
 
 ## See also
 
-- Least squares
-- Sparse matrices
-- Krylov methods & preconditioning
-- Conditioning & stability
-- Eigenproblems
+- [Least squares](/ref/solve/least-squares)
+- [Sparse matrices](/ref/solve/sparse-matrices)
+- [Krylov methods & preconditioning](/ref/solve/krylov-preconditioning)
+- [Conditioning & stability](/ref/reliable/conditioning-stability)
+- [Eigenproblems](/ref/solve/eigenproblems)
 
 **References:**
 

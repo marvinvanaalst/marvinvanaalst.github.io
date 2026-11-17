@@ -25,18 +25,36 @@ aliases:
   ]
 tags: [ODE, time stepping, stiff, integrator]
 order: 2
-updated: '2026-11-15'
+updated: '2026-11-17'
 published: true
 layout: ref
 ---
 
 ## TL;DR
 
-Solve $y' = f(t, y)$, $y(t_0) = y_0$. **Non-stiff:** adaptive explicit RK, 5th order (Tsit5, DP5) at default tolerances, 7th–9th order (Vern7/9, DOP853) for tolerances ≲ $10^{-8}$. **Stiff:** Rosenbrock (Rodas) for small to medium systems at moderate tolerances, BDF for large systems at loose tolerances, Radau IIA when you need tight tolerances or a DAE. **Unknown stiffness:** an auto-switching solver (LSODA, composite RK/Rosenbrock). Fixed-step RK4 only when you really need a fixed grid.
+Solve $y' = f(t, y)$, $y(t_0) = y_0$.
 
-## Stiffness in one paragraph
+- **Non-stiff:** adaptive explicit RK.
+  - 5th order (Tsit5, DP5) at default tolerances.
+  - 7th–9th order (Vern7/9, DOP853) for tolerances ≲ $10^{-8}$.
+- **Stiff:**
+  - Rosenbrock (Rodas) for small to medium systems at moderate tolerances.
+  - BDF for large systems at loose tolerances.
+  - Radau IIA for tight tolerances or DAEs.
+- **Unknown stiffness:** an auto-switching solver (LSODA, composite RK/Rosenbrock).
+- **Fixed-step RK4:** only when you really need a fixed grid.
 
-A problem is stiff when the step size is set by **stability**, not accuracy. Fast, strongly damped modes ($\operatorname{Re}\lambda \ll 0$ for eigenvalues $\lambda$ of $J = \partial f / \partial y$) have long since decayed, but an explicit method still needs $h\lvert\lambda_{\max}\rvert \lesssim C$ to stay stable. **Symptoms:** an explicit solver takes thousands of tiny steps through a smooth solution, with many rejected steps. **Typical sources:** chemical kinetics and metabolism (rate constants spanning orders of magnitude), diffusion discretisations ($\lambda \sim -1/\Delta x^2$), circuits, and control loops with fast feedback.
+## Stiffness
+
+A problem is stiff when the step size is set by **stability**, not accuracy.
+
+- **Mechanism:** fast, strongly damped modes ($\operatorname{Re}\lambda \ll 0$ for eigenvalues $\lambda$ of $J = \partial f / \partial y$) have long since decayed, but an explicit method still needs $h\lvert\lambda_{\max}\rvert \lesssim C$ to stay stable.
+- **Symptoms:** an explicit solver takes thousands of tiny steps through a smooth solution, with many rejected steps.
+- **Typical sources:**
+  - chemical kinetics and metabolism (rate constants spanning orders of magnitude)
+  - diffusion discretisations ($\lambda \sim -1/\Delta x^2$)
+  - circuits
+  - control loops with fast feedback
 
 ## Decision table
 
@@ -54,53 +72,40 @@ A problem is stiff when the step size is set by **stability**, not accuracy. Fas
 | Trapezoid / implicit midpoint     | implicit 1-step             | 2          | 1 Newton solve                                            | A-stable but not L-stable: ringing on stiff modes |
 | LSODA                             | auto Adams ↔ BDF            | 1–12 / 1–5 | adaptive                                                  | stiffness unknown or changing                     |
 
-**Rules of thumb.** High order pays off at tight tolerances (fewer steps beat more stages). Rosenbrock beats BDF for small systems because the LU is cheap and you skip Newton. BDF beats one-step methods for big systems because it does one nonlinear solve per step. Radau beats BDF when the tolerance is tight or the problem is very stiff and oscillatory, since BDF orders above 2 are not A-stable near the imaginary axis.
+**Rules of thumb:**
+
+- High order pays off at tight tolerances: fewer steps beat more stages.
+- Rosenbrock beats BDF for small systems: the LU is cheap and there is no Newton iteration.
+- BDF beats one-step methods for big systems: one nonlinear solve per step.
+- Radau beats BDF at tight tolerances or for very stiff oscillatory problems, since BDF orders above 2 are not A-stable near the imaginary axis.
 
 ## Variants
 
 ### Explicit Runge–Kutta (embedded)
 
-Stages $k_i = f\big(t + c_i h,\; y + h\sum_{j<i} a_{ij} k_j\big)$, update $y_{n+1} = y_n + h\sum_i b_i k_i$. A second weight vector $\hat b$ gives a lower-order solution, so the error estimate is almost free.
-
-```julia
-function rk_step(f, t, y, h, A, b, b̂, c)
-    s = length(b); k = Vector{typeof(y)}(undef, s)
-    for i in 1:s
-        yi = y + h * sum((A[i, j] * k[j] for j in 1:i-1); init=zero(y))
-        k[i] = f(t + c[i] * h, yi)
-    end
-    ynew = y + h * sum(b[i] * k[i] for i in 1:s)
-    err = h * sum((b[i] - b̂[i]) * k[i] for i in 1:s)
-    return ynew, err
-end
-
-function accept_and_next_h(h, err, y, ynew; atol=1e-6, rtol=1e-3, q=4)
-    sc = atol .+ rtol .* max.(abs.(y), abs.(ynew))
-    e = sqrt(sum(abs2, err ./ sc) / length(y))          # scaled RMS norm
-    return e <= 1, h * clamp(0.9 * e^(-1 / (q + 1)), 0.2, 5.0)
-end
-```
-
-FSAL (first same as last): the last stage of step $n$ is the first stage of step $n+1$. Dense output comes from extra interpolation weights, so you don't need to shrink $h$ just to hit output times. Step control details are on their own page.
+- **Stages:** $k_i = f\big(t + c_i h,\; y + h\sum_{j<i} a_{ij} k_j\big)$.
+- **Update:** $y_{n+1} = y_n + h\sum_i b_i k_i$.
+- **Error estimate:** a second weight vector $\hat b$ gives a lower-order solution, so $\mathrm{err} = h\sum_i (b_i - \hat b_i)\,k_i$ is almost free.
+- **Step control** (details on [their own page](/ref/integrate/step-control-events)):
+  1. Scale per component, $\mathrm{sc}_i = \mathrm{atol} + \mathrm{rtol}\cdot\max(\lvert y_i\rvert, \lvert y_{n+1,i}\rvert)$, and take the RMS norm $e = \lVert \mathrm{err}/\mathrm{sc}\rVert_{\mathrm{RMS}}$.
+  2. Accept the step if $e \le 1$.
+  3. Next step size: $h_{\text{new}} = h \cdot \operatorname{clamp}\big(0.9\, e^{-1/(q+1)},\, 0.2,\, 5\big)$, where $q$ is the lower order.
+- **FSAL** (first same as last): the last stage of step $n$ is the first stage of step $n+1$.
+- **Dense output:** extra interpolation weights give the solution between steps, so you don't need to shrink $h$ just to hit output times.
 
 ### Implicit one-step: implicit Euler, Radau, SDIRK
 
-Implicit Euler: $y_{n+1} = y_n + h f(t_{n+1}, y_{n+1})$, a nonlinear system per step. Newton uses $W = I - h\gamma J$. Factor $W$ once and reuse it across Newton iterations and across steps until $h$ or $J$ change noticeably (simplified Newton).
-
-```julia
-function implicit_euler_step(f, J, t, y, h; tol=1e-10, maxit=10)
-    W = lu(I - h * J(t + h, y))                 # reuse across iterations
-    z = copy(y)
-    for _ in 1:maxit
-        Δ = W \ (y + h * f(t + h, z) - z)
-        z += Δ
-        norm(Δ) < tol && return z
-    end
-    error("Newton did not converge: reduce h")
-end
-```
-
-**Radau IIA** is collocation at Radau points. Its $s$ stages are coupled, giving a $3n \times 3n$ system for $s=3$. Diagonalising the RK matrix reduces this to one real and one complex $n \times n$ factorisation. It is order $2s-1$, L-stable, and handles index-1 to 3 DAEs. **SDIRK** has a lower-triangular RK matrix with equal diagonals, so the stages are solved sequentially and all share the same $W$.
+- **Implicit Euler:** $y_{n+1} = y_n + h f(t_{n+1}, y_{n+1})$, a nonlinear system per step.
+- **Simplified Newton** on $z = y_n + h f(t_{n+1}, z)$:
+  1. Factor $W = I - h\gamma J$ once (implicit Euler: $\gamma = 1$).
+  2. Iterate $z \leftarrow z + W^{-1}\big(y_n + h f(t_{n+1}, z) - z\big)$ until the update is below tolerance.
+  3. No convergence within a few iterations → reject the step and reduce $h$.
+  4. Reuse $W$ across iterations and across steps until $h$ or $J$ change noticeably.
+- **Radau IIA:**
+  - Collocation at Radau points, $s$ coupled stages: a $3n \times 3n$ system for $s = 3$.
+  - Diagonalising the RK matrix reduces this to one real and one complex $n \times n$ factorisation.
+  - Order $2s-1$, L-stable, handles DAEs of index 1 to 3.
+- **SDIRK:** lower-triangular RK matrix with equal diagonals, so the stages are solved one after another and all share the same $W$.
 
 ### Rosenbrock (linearly implicit)
 
@@ -110,19 +115,24 @@ $$
 (I - h\gamma J)\, k_i = h f\Big(y_n + \sum_{j<i}\alpha_{ij}k_j\Big) + h J \sum_{j<i}\gamma_{ij}k_j
 $$
 
-There is one LU per step and no convergence failures. However, an **inaccurate Jacobian ruins the order** (W-methods relax this), so use AD or an analytic $J$.
+- One LU per step and no convergence failures.
+- An **inaccurate Jacobian ruins the order** (W-methods relax this), so use AD or an analytic $J$.
 
 ### Multistep: Adams and BDF
 
-Multistep methods reuse past values instead of extra stages. **Adams** methods integrate an interpolating polynomial through past $f$ values: explicit Adams–Bashforth predicts, implicit Adams–Moulton corrects. **BDF** fits a polynomial through past $y$ values and enforces the ODE at the new point:
+Multistep methods reuse past values instead of extra stages.
+
+- **Adams:** integrate an interpolating polynomial through past $f$ values. Explicit Adams–Bashforth predicts, implicit Adams–Moulton corrects.
+- **BDF:** fit a polynomial through past $y$ values and enforce the ODE at the new point, e.g.
 
 $$
 \text{BDF2:}\quad y_{n+1} - \tfrac43 y_n + \tfrac13 y_{n-1} = \tfrac23 h\, f(t_{n+1}, y_{n+1})
 $$
 
-Both run variable step and variable order (VSVO), and are cheap per step. Restarts after discontinuities and events are costly: the method drops back to order 1.
+- Both run variable step and variable order (VSVO), and are cheap per step.
+- Restarts after discontinuities and events are costly: the method drops back to order 1.
 
-### Stability in one formula
+### Stability
 
 Apply the method to $y' = \lambda y$ to get $y_{n+1} = R(z)\,y_n$ with $z = h\lambda$.
 
@@ -133,31 +143,59 @@ Apply the method to $y' = \lambda y$ to get $y_{n+1} = R(z)\,y_n$ with $z = h\la
 | implicit Euler | $1 / (1 - z)$             | **L-stable**: $R(\infty) = 0$          |
 | trapezoid      | $(1 + z/2)/(1 - z/2)$     | A-stable, $\lvert R(\infty)\rvert = 1$ |
 
-**A-stable:** $\lvert R(z)\rvert \le 1$ for all $\operatorname{Re} z \le 0$. **L-stable:** also $R(z) \to 0$ as $z \to \infty$, so stiff modes are damped, not just kept bounded. **Dahlquist barriers:** no explicit method is A-stable, and A-stable linear multistep methods have order ≤ 2.
+- **A-stable:** $\lvert R(z)\rvert \le 1$ for all $\operatorname{Re} z \le 0$.
+- **L-stable:** also $R(z) \to 0$ as $z \to \infty$, so stiff modes are damped, not just kept bounded.
+- **Dahlquist barriers:**
+  - No explicit method is A-stable.
+  - A-stable linear multistep methods have order ≤ 2.
 
 ### Cost model
 
-Total cost ≈ steps × (stages × cost of $f$ + linear algebra). The linear algebra in implicit methods is a Jacobian ($n$ extra $f$-evaluations by finite differences, fewer with sparsity colouring or AD), an LU ($n^3$ dense, much less when sparse) and solves ($n^2$ each). At large $n$ the factorisation dominates, so implicit solvers live or die by Jacobian reuse, **sparsity** and, for huge systems, Jacobian-free Newton–Krylov.
+Total cost ≈ steps × (stages × cost of $f$ + linear algebra). For implicit methods, the linear algebra is:
+
+- **Jacobian:** $n$ extra $f$-evaluations by finite differences, fewer with sparsity colouring or AD.
+- **LU:** $n^3$ dense, much less when sparse.
+- **Solves:** $n^2$ each.
+
+At large $n$ the factorisation dominates, so implicit solvers live or die by Jacobian reuse, **sparsity** and, for huge systems, Jacobian-free Newton–Krylov.
 
 ## Other lenses
 
-- **Linear algebra.** For $y' = Ay$ the exact step is $e^{hA}$. Every one-step method approximates it with a rational function $R(hA)$: polynomials (Taylor-like) for explicit methods, Padé-like for implicit ones. Stability means $\lvert R\rvert \le 1$ on the spectrum of $hA$, and stiffness means that spectrum is spread wide.
-- **Optimisation.** For a gradient flow $y' = -\nabla F(y)$, explicit Euler is gradient descent and implicit Euler is a proximal step, $y_{n+1} = \arg\min_z F(z) + \tfrac1{2h}\lVert z - y_n\rVert^2$. That is why implicit steps are unconditionally stable on convex $F$. ResNets are explicit Euler too.
-- **Interpolation.** Collocation RK methods (Gauss, Radau, Lobatto) fit a polynomial through the stages. Multistep methods are polynomial interpolation through past values.
-- **Geometry.** Generic integrators don't preserve invariants. For Hamiltonian systems, symplectic methods keep the energy error bounded over long times (see geometric integrators).
+- **Linear algebra.**
+  - For $y' = Ay$ the exact step is $e^{hA}$. Every one-step method approximates it with a rational function $R(hA)$: polynomials (Taylor-like) for explicit methods, Padé-like for implicit ones.
+  - Stability means $\lvert R\rvert \le 1$ on the spectrum of $hA$. Stiffness means that spectrum is spread wide.
+- **Optimisation.** For a gradient flow $y' = -\nabla F(y)$:
+  - Explicit Euler is gradient descent. ResNets are explicit Euler too.
+  - Implicit Euler is a proximal step, $y_{n+1} = \arg\min_z F(z) + \tfrac1{2h}\lVert z - y_n\rVert^2$, which is why it is unconditionally stable on convex $F$.
+- **Interpolation.**
+  - Collocation RK methods (Gauss, Radau, Lobatto) fit a polynomial through the stages.
+  - Multistep methods are polynomial interpolation through past values.
+- **Geometry.** Generic integrators don't preserve invariants. For Hamiltonian systems, symplectic methods keep the energy error bounded over long times (see [geometric integrators](/ref/integrate/geometric-integrators)).
 
 ## Pitfalls & diagnostics
 
-- **Tolerances:** `atol` matters wherever $\lvert y\rvert$ approaches 0. With concentrations it is the usual cause of small negative values and blow-ups. Set it per component, below the scale you care about.
-- Loose tolerances on stiff problems can give a stable but **qualitatively wrong** answer. Always check convergence by tightening the tolerance 10× and comparing.
+- **Tolerances:**
+  - `atol` matters wherever $\lvert y\rvert$ approaches 0. With concentrations it is the usual cause of small negative values and blow-ups. Set it per component, below the scale you care about.
+  - Loose tolerances on stiff problems can give a stable but **qualitatively wrong** answer. Check convergence by tightening the tolerance 10× and comparing.
 - **Discontinuities** in $f$ (dosing, switches, `max`, lookup tables) kill error control. Stop exactly at them (`tstops`, events) and restart.
-- Saving densely ≠ stepping densely: use the interpolant for output instead of forcing a small $h$.
-- Compare solvers with **work-precision diagrams** (error vs runtime over a tolerance sweep), not runtime at a single tolerance.
-- Implicit solver slow? Check that the Jacobian is reused and sparse, and that no dense $n \times n$ matrix is being refactored every step.
-- For long-time conservative dynamics (orbits, molecular dynamics), energy drift from non-symplectic methods is a method artefact, not physics.
+- **Output:** saving densely ≠ stepping densely. Use the interpolant for output instead of forcing a small $h$.
+- **Benchmarking:** compare solvers with work-precision diagrams (error vs runtime over a tolerance sweep), not runtime at a single tolerance.
+- **Slow implicit solver?** Check that the Jacobian is reused and sparse, and that no dense $n \times n$ matrix is refactored every step.
+- **Energy drift** in long-time conservative dynamics (orbits, molecular dynamics) is an artefact of non-symplectic methods, not physics.
 
 ## See also
 
-Step control & events · DAEs · Geometric integrators · SDEs · Method of lines · ODE sensitivities · Solve Ax = b · Steady states & stability
+- [Step control & events](/ref/integrate/step-control-events)
+- [DAEs](/ref/integrate/daes)
+- [Geometric integrators](/ref/integrate/geometric-integrators)
+- [SDEs](/ref/integrate/sdes)
+- [Method of lines](/ref/integrate/pdes-method-of-lines)
+- [ODE sensitivities](/ref/diff/ode-sensitivities)
+- [Solve Ax = b](/ref/solve/linear-systems)
+- [Steady states & stability](/ref/dynamics/steady-states-stability)
 
-**References:** Hairer, Nørsett & Wanner, _Solving ODEs I: Nonstiff Problems_. Hairer & Wanner, _Solving ODEs II: Stiff and DAE Problems_. Ascher & Petzold, _Computer Methods for ODEs and DAEs_.
+**References:**
+
+- Hairer, Nørsett & Wanner, _Solving ODEs I: Nonstiff Problems_.
+- Hairer & Wanner, _Solving ODEs II: Stiff and DAE Problems_.
+- Ascher & Petzold, _Computer Methods for ODEs and DAEs_.
