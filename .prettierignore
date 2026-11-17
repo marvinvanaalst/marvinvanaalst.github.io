@@ -11,3 +11,6 @@ bun.lockb
 # Agent tooling
 .claude/
 .impeccable/
+
+# Reference pages: Prettier does not understand $…$ math and rewrites * inside it as emphasis
+src/ref/
