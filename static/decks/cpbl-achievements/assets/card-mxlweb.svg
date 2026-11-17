@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 170" width="320" height="170">
+  <defs>
+    <linearGradient id="bg-mxlweb" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00767c"/>
+      <stop offset="100%" stop-color="#003236"/>
+    </linearGradient>
+    <filter id="shadow-mxlweb" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000000" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+
+  <rect x="4" y="4" width="312" height="162" rx="20" fill="url(#bg-mxlweb)" filter="url(#shadow-mxlweb)"/>
+  <rect x="4.5" y="4.5" width="311" height="161" rx="19.5" fill="none" stroke="#ffffff" stroke-opacity="0.12"/>
+
+  <!-- abstract motif: ODE solution trace -->
+  <path d="M 216 148 C 236 100, 252 156, 272 108 S 300 96, 312 118"
+        fill="none" stroke="#f6a800" stroke-width="3" stroke-linecap="round" stroke-opacity="0.9"/>
+  <circle cx="216" cy="148" r="4" fill="#f6a800"/>
+  <circle cx="252" cy="156" r="4" fill="#f6a800" fill-opacity="0.75"/>
+  <circle cx="288" cy="102" r="5" fill="#f6a800"/>
+
+  <text x="24" y="58" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="30" fill="#ffffff">mxl-web</text>
+  <text x="24" y="88" font-family="Arial, Helvetica, sans-serif" font-weight="400" font-size="15" fill="#d7e6e6">
+    <tspan x="24" dy="0">Run ODE models directly</tspan>
+    <tspan x="24" dy="20">in the browser</tspan>
+  </text>
+</svg>
