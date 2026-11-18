@@ -5,10 +5,13 @@
 	import SectionHeading from '#lib/SectionHeading.svelte';
 	import publications from '#lib/publications.json';
 	import { software } from '#lib/software.js';
+	import * as config from '#lib/config.js';
 
 	const featured = software.filter((project) => project.featured);
 	const recent = [...publications].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 2);
 </script>
+
+<svelte:head><title>{config.title}</title></svelte:head>
 
 <section class="hero" aria-labelledby="hero-title">
 	<div class="hero-copy">
