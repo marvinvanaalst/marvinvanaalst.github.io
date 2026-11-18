@@ -4,14 +4,16 @@
 		<meta charset="utf-8" />
 		<link rel="icon" href="%sveltekit.assets%/favicon.svg" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="color-scheme" content="light dark" />
 		<script>
+			// Apply a stored theme override before first paint (no flash).
 			try {
-				const theme = localStorage.getItem('theme');
-				if (theme === 'light' || theme === 'dark') {
-					document.documentElement.setAttribute('data-theme', theme);
+				const stored = localStorage.getItem('color-scheme');
+				if (stored === 'light' || stored === 'dark') {
+					document.querySelector('meta[name="color-scheme"]').content = stored;
 				}
 			} catch {
-				// Storage can be blocked; fall back to the system theme.
+				// Storage can be blocked; follow the system theme.
 			}
 		</script>
 		%sveltekit.head%

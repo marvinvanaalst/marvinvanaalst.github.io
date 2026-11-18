@@ -89,7 +89,7 @@
 	.toc {
 		position: sticky;
 		top: 24px;
-		max-height: calc(100vh - 48px);
+		max-height: calc(100dvh - 48px);
 		overflow-y: auto;
 		font-size: 13px;
 	}

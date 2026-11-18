@@ -1,37 +1,24 @@
 /* Precision design: tokens, base typography and shared utilities. */
 
 :root {
-	--paper: #fafaf9;
-	--text: #24242b;
-	--muted: #65656e;
-	--line: #dcdce1;
-	--accent: #6438ac;
-	--panel: #f0eff3;
+	/* Follows the system by default; the theme toggle pins a scheme by
+	   setting <meta name="color-scheme"> (see app.html / ThemeSwitcher). */
+	color-scheme: light dark;
+	--paper: light-dark(#fafaf9, #181a20);
+	--text: light-dark(#24242b, #e8e8ee);
+	--muted: light-dark(#65656e, #a6a8b4);
+	--line: light-dark(#dcdce1, #373942);
+	--accent: light-dark(#6438ac, #bea3f2);
+	--panel: light-dark(#f0eff3, #22252d);
 	--font-sans: system-ui, sans-serif;
 	--font-mono: ui-monospace, monospace;
-	color-scheme: light;
-}
 
-@media (prefers-color-scheme: dark) {
-	:root:not([data-theme='light']) {
-		--paper: #181a20;
-		--text: #e8e8ee;
-		--muted: #a6a8b4;
-		--line: #373942;
-		--accent: #bea3f2;
-		--panel: #22252d;
+	&:has(> head > meta[name='color-scheme'][content='dark']) {
 		color-scheme: dark;
 	}
-}
-
-:root[data-theme='dark'] {
-	--paper: #181a20;
-	--text: #e8e8ee;
-	--muted: #a6a8b4;
-	--line: #373942;
-	--accent: #bea3f2;
-	--panel: #22252d;
-	color-scheme: dark;
+	&:has(> head > meta[name='color-scheme'][content='light']) {
+		color-scheme: light;
+	}
 }
 
 *,
@@ -45,7 +32,7 @@ body {
 	background: var(--paper);
 	color: var(--text);
 	font: 16px/1.6 var(--font-sans);
-	min-height: 100vh;
+	min-height: 100dvh;
 }
 
 h1,

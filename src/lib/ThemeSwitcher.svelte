@@ -1,41 +1,67 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 
-	type Theme = 'auto' | 'light' | 'dark';
+	// Two-state toggle (modern-web-guidance dark-mode-toggle): "follow the
+	// system" or "the opposite of the system", stored literally. Toggling back
+	// to what the system shows removes the override instead of pinning it.
+	type Scheme = 'light' | 'dark';
+	const KEY = 'color-scheme';
 
-	let theme = $state<Theme>('auto');
+	let stored = $state<Scheme | null>(null);
 	let systemDark = $state(false);
 
-	const isDark = $derived(theme === 'auto' ? systemDark : theme === 'dark');
+	const isDark = $derived(stored ? stored === 'dark' : systemDark);
 	const label = $derived(isDark ? 'Light' : 'Dark');
-	const title = $derived(
-		theme === 'auto'
-			? 'Following system theme (click to override)'
-			: isDark
-				? 'Switch to light theme'
-				: 'Switch to dark theme'
-	);
+	const title = $derived(isDark ? 'Switch to light theme' : 'Switch to dark theme');
+
+	function readStored(): Scheme | null {
+		try {
+			const value = localStorage.getItem(KEY);
+			return value === 'light' || value === 'dark' ? value : null;
+		} catch {
+			return null;
+		}
+	}
+
+	function apply(value: Scheme | null) {
+		stored = value;
+		const meta = document.querySelector<HTMLMetaElement>('meta[name="color-scheme"]');
+		if (meta) meta.content = value ?? 'light dark';
+	}
 
 	onMount(() => {
 		const query = window.matchMedia('(prefers-color-scheme: dark)');
 		systemDark = query.matches;
-		const onChange = () => (systemDark = query.matches);
-		query.addEventListener('change', onChange);
+		const onSystemChange = () => (systemDark = query.matches);
+		query.addEventListener('change', onSystemChange);
 
-		const saved = localStorage.getItem('theme');
-		theme = saved === 'light' || saved === 'dark' ? saved : 'auto';
+		stored = readStored();
+		const onStorage = (event: StorageEvent) => {
+			if (event.key === KEY) apply(readStored());
+		};
+		window.addEventListener('storage', onStorage);
 
-		return () => query.removeEventListener('change', onChange);
+		return () => {
+			query.removeEventListener('change', onSystemChange);
+			window.removeEventListener('storage', onStorage);
+		};
 	});
 
 	function toggle() {
-		theme = isDark ? 'light' : 'dark';
-		document.documentElement.setAttribute('data-theme', theme);
-		localStorage.setItem('theme', theme);
+		const target: Scheme = isDark ? 'light' : 'dark';
+		const system: Scheme = systemDark ? 'dark' : 'light';
+		const next = target === system ? null : target;
+		apply(next);
+		try {
+			if (next) localStorage.setItem(KEY, next);
+			else localStorage.removeItem(KEY);
+		} catch {
+			// Not persisted, but still applied for this page view.
+		}
 	}
 </script>
 
-<button onclick={toggle} {title} aria-label={title}>{label}</button>
+<button type="button" onclick={toggle} {title} aria-label={title}>{label}</button>
 
 <style>
 	button {
