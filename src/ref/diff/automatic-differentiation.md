@@ -1,6 +1,6 @@
 ---
 title: 'Automatic differentiation'
-description: 'Forward mode with dual numbers, reverse mode with tapes, their costs, checkpointing, sparse Jacobians by colouring and Hessian-vector products.'
+description: 'Forward mode with dual numbers, reverse mode with tapes, their costs, checkpointing, sparse Jacobians by colouring, Hessian-vector products, implicit differentiation and Taylor-mode AD.'
 aliases:
   [
     AD,
@@ -21,11 +21,16 @@ aliases:
     forward-over-reverse,
     source transformation,
     operator overloading,
-    Enzyme
+    Enzyme,
+    implicit differentiation,
+    implicit function theorem,
+    Taylor mode,
+    higher-order AD,
+    univariate Taylor propagation
   ]
 tags: [differentiation, AD, backpropagation]
 order: 2
-updated: '2026-11-17'
+updated: '2026-11-20'
 published: true
 layout: ref
 ---
@@ -80,7 +85,20 @@ layout: ref
 
 - **Colouring:** columns of $J$ with disjoint row patterns share one forward pass (or rows sharing one reverse pass). Requires the sparsity pattern (detected by tracing).
 - **Hessian-vector product:** forward mode applied to the reverse-mode gradient, $Hv = \frac{d}{d\epsilon}\nabla f(x + \epsilon v)\big|_0$. Used in Newton–CG, trust region, Lanczos on the Hessian.
-- **Implicit differentiation:** for $x^*(\theta)$ defined by $F(x^*, \theta) = 0$, $\frac{dx^*}{d\theta} = -F_x^{-1}F_\theta$. Differentiate fixed points, optimisers and nonlinear solves without unrolling iterations.
+
+### Implicit differentiation
+
+- For $x^*(\theta)$ defined by $F(x^*, \theta) = 0$ (a nonlinear solve, fixed point $x = T(x, \theta)$, or optimality condition $\nabla_x g = 0$), the implicit function theorem gives $\dfrac{dx^*}{d\theta} = -F_x^{-1}F_\theta$.
+- **Forward:** one linear solve with $F_x$ per input direction. **Reverse:** for a scalar loss, solve $F_x^\top\lambda = \nabla_x L$ once, then $\nabla_\theta L = -\lambda^\top F_\theta$. The products $F_x v$, $\lambda^\top F_x$ and $\lambda^\top F_\theta$ come from ordinary AD of $F$, and the linear solve can reuse the forward solver's factorisation or run matrix-free with Krylov.
+- Cost does not depend on how many iterations the solver took, and memory is $O(1)$ in the iterations. Differentiates the exact solution, so the solve must actually be converged.
+- Uses: steady states and metabolic control analysis, optimisation layers, deep equilibrium models, Newton iterations inside implicit ODE steps (see [ODE sensitivities](/ref/diff/ode-sensitivities)).
+- Fails where $F_x$ is singular (bifurcations, non-unique minimisers).
+
+### Taylor mode (higher order)
+
+- Propagate truncated Taylor polynomials $x_0 + x_1t + \dots + x_dt^d$ instead of dual numbers. Each elementary operation has a recurrence for the coefficients (e.g. products by convolution), so degree $d$ costs $O(d^2)$ (or $O(d\log d)$) times the primal, instead of the $O(2^d)$ blow-up of nesting forward mode $d$ times.
+- Gives $d$-th directional derivatives in one pass; mixed partials by interpolating several directions (Griewank, Utke & Walther).
+- Uses: Taylor-series ODE integrators and jet transport, higher-order optimisation, PDE residuals with high derivatives (e.g. physics-informed losses).
 
 ### Symbolic differentiation (a lens)
 
@@ -107,6 +125,7 @@ layout: ref
 - [Finite differences](/ref/diff/finite-differences)
 - [ODE sensitivities](/ref/diff/ode-sensitivities)
 - [Matrix calculus](/ref/diff/matrix-calculus)
+- [Stochastic gradient estimators](/ref/diff/stochastic-gradients)
 - [Neural ODEs & UDEs](/ref/optimise/neural-odes-udes)
 - [Staging & partial evaluation](/ref/programs/staging-partial-evaluation)
 
@@ -114,4 +133,6 @@ layout: ref
 
 - Griewank & Walther, _Evaluating Derivatives_ (2nd ed.).
 - Baydin et al., "Automatic differentiation in machine learning: a survey", JMLR (2018).
+- Griewank, Utke & Walther, "Evaluating higher derivative tensors by forward propagation of univariate Taylor series", Math. Comp. (2000).
+- Blondel et al., "Efficient and modular implicit differentiation", NeurIPS (2022).
 - Blondel & Roulet, "The elements of differentiable programming" (2024).
