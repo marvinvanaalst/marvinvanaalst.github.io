@@ -3,7 +3,7 @@
 </script>
 
 <footer>
-	<span>Dr. Marvin van Aalst <span class="muted">/ Built with care & ❤️</span></span>
+	<span>Dr. Marvin van Aalst <span class="muted">/ Built with ❤️ & care</span></span>
 	<div>
 		<a href={resolve('/ref')}>Reference</a>
 		<a href="https://www.cpbl.rwth-aachen.de/">RWTH Aachen ↗</a>
