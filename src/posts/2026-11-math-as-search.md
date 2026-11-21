@@ -6,7 +6,7 @@ categories:
 date: '2026-11-21'
 author: 'Marvin van Aalst'
 layout: tutorials
-published: false
+published: true
 ---
 
 # Is Math Now a Search Problem?
