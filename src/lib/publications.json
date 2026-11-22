@@ -261,7 +261,7 @@
 	},
 	{
 		"title": "Shifts in carbon partitioning by photosynthetic activity increase terpenoid synthesis in glandular trichomes",
-		"date": "2023-06-20",
+		"date": "2023-07-04",
 		"doi": "https://doi.org/10.1111/tpj.16352",
 		"authors": [
 			"Nima P. Saadat",
@@ -289,7 +289,7 @@
 	},
 	{
 		"title": "COBREXA.jl: constraint-based reconstruction and exascale analysis",
-		"date": "2021-11-10",
+		"date": "2021-11-16",
 		"doi": "https://doi.org/10.1093/bioinformatics/btab782",
 		"authors": [
 			"Miroslav Kratochvíl",
