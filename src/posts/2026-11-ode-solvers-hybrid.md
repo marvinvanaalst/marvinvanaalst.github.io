@@ -1,5 +1,5 @@
 ---
-title: 'Between Stiff and Non-Stiff'
+title: 'Between Stiff and Non-Stiff ODE solvers'
 description: 'Stiffness detection and auto-switching, IMEX splitting, stabilised explicit and exponential integrators: four ways to avoid committing to explicit or implicit up front.'
 categories:
   - musings
@@ -9,7 +9,7 @@ template: tutorials
 published: true
 ---
 
-# Between Stiff and Non-Stiff
+# Between Stiff and Non-Stiff ODE solvers
 
 The [first post](/blog/2026-11-ode-solvers-nonstiff) in this series was about explicit methods, which are cheap per step but whose step size collapses once the problem becomes stiff. The [second](/blog/2026-11-ode-solvers-stiff) was about implicit methods, which take large steps but pay for a Jacobian, a factorisation and a Newton iteration in every step. Real problems rarely fall cleanly on one side. A metabolic model is non-stiff during a transient and stiff once the fast reactions have equilibrated. A reaction–diffusion system is stiff in the diffusion and harmless in the reactions. A chemical network may be stiff in only one or two eigenvalues.
 
