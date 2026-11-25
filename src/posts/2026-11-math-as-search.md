@@ -5,7 +5,7 @@ categories:
   - musings
 date: '2026-11-21'
 author: 'Marvin van Aalst'
-layout: tutorials
+template: tutorials
 published: true
 ---
 

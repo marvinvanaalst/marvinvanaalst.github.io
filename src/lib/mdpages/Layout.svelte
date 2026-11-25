@@ -4,10 +4,12 @@
   Dev Documentation
   -----------------
   - mdsvex passes the frontmatter (title, date, ...) as props; only the content is rendered here.
-  - shiki highlighter returns {@html ...} raw HTML, so code blocks are styled via :global(.shiki).
+  - Code fences are highlighted by mdsvex (twinkleplop) and themed with Night Owl dark.
 -->
 
 <script lang="ts">
+	import '@twinkleplop/theme-night-owl/dark';
+
 	let { children } = $props();
 </script>
 
@@ -85,14 +87,16 @@
 		hyphens: none;
 	}
 
-	.prose :global(.shiki) {
+	.prose :global(pre.twinkleplop) {
 		padding: 1rem;
+		background: var(--twp-background);
+		color: var(--twp-identifier);
 		border-radius: 3px;
 		overflow-x: auto;
 		font: 13px/1.6 var(--font-mono);
 	}
 
-	.prose :global(.shiki code) {
+	.prose :global(pre.twinkleplop code) {
 		font: inherit;
 	}
 

@@ -5,7 +5,7 @@ categories:
   - musings
 date: '2026-11-05'
 author: 'Marvin van Aalst'
-layout: tutorials
+template: tutorials
 published: false
 ---
 
@@ -19,7 +19,7 @@ If you write numerical libraries, you make execution decisions all the time, usu
 - Allocate now, or reuse a buffer?
 - Use the AVX-512 path, or the baseline one?
 
-The trouble is that the same decisions are also being made by the code you call, by the code that calls you, and by whoever builds the final program. Whether those decisions **compose** or **collide** decides whether a software stack is pleasant to work in, or full of escape hatches like `n_jobs=1`, `OMP_NUM_THREADS=1` and `torch.set_num_threads(1)`.
+The trouble is that the same decisions are also being made by the code you call, by the code that calls you, and by whoever builds the final program. Whether those decisions *compose* or *collide* decides whether a software stack is pleasant to work in, or full of escape hatches like `n_jobs=1`, `OMP_NUM_THREADS=1` and `torch.set_num_threads(1)`.
 
 This post argues two things. First, that the mechanism used to pass an execution decision around (an argument, a type, a scoped setting) matters much less than whether the strategy behind it composes. Second, that execution decisions belong to three different parties, and most ecosystems go wrong by letting one of them decide something only another one knows.
 
@@ -33,23 +33,23 @@ You can only swap an execution strategy if the code doesn't depend on it. So the
 
 Three neighbouring decisions look like execution decisions but aren't, and should stay visible in the code:
 
-- **Lifting.** Applying a scalar function to every element of an array returns an array, applying it to a scalar returns a scalar. That is a different result type, so the call site has to choose it (see the companion post).
-- **Relaxed floating point.** Fused multiply-add and reassociated sums are faster, and change the bits. GCC contracts `a * b + c` into an FMA by default in its GNU C modes (`-ffp-contract=fast`), so the same source gives different results on a machine with FMA than on one without. That is an execution decision leaking into the results, and it should be visible in the function's signature or the build, not implied by `-march=native`.
-- **Precision.** PyTorch's `torch.autocast` is a block-scoped setting that silently changes dtypes, and therefore results. Precision belongs in the types.
+- *Lifting.* Applying a scalar function to every element of an array returns an array, applying it to a scalar returns a scalar. That is a different result type, so the call site has to choose it (see the companion post).
+- *Relaxed floating point.* Fused multiply-add and reassociated sums are faster, and change the bits. GCC contracts `a * b + c` into an FMA by default in its GNU C modes (`-ffp-contract=fast`), so the same source gives different results on a machine with FMA than on one without. That is an execution decision leaking into the results, and it should be visible in the function's signature or the build, not implied by `-march=native`.
+- *Precision.* PyTorch's `torch.autocast` is a block-scoped setting that silently changes dtypes, and therefore results. Precision belongs in the types.
 
 ## Three responsibilities
 
 When a library spawns its own threads and is then called from an already-parallel context, you get the classic thread explosion: an outer loop over 16 items, each calling a matrix multiply that uses 16 threads, gives 256 runnable threads on a 16-core machine. Every attempt to fix this runs into the same tension:
 
-- The **library author** knows _where_ an algorithm admits parallelism, which dependencies exist, and what the useful granularity is. They don't know the context the library will be called in.
-- The **caller** knows the context, but not the algorithm.
-- **Nobody** in the code knows how loaded the machine is right now.
+- The *library author* knows _where_ an algorithm admits parallelism, which dependencies exist, and what the useful granularity is. They don't know the context the library will be called in.
+- The *caller* knows the context, but not the algorithm.
+- *Nobody* in the code knows how loaded the machine is right now.
 
 The way out is to separate the _specification_ of parallelism from its _execution policy_, and to give each party exactly the decisions it has the information for:
 
-1. **The algorithmic layer** (library code) identifies available parallelism and its trade-offs: what may run concurrently, what it costs in extra work or memory, and below which size it isn't worth it.
-2. **The execution layer** (the runtime and the compiler) maps that available parallelism onto threads, cores, vector lanes and accelerators, based on the hardware and on what is free right now.
-3. **The application layer** (whoever builds the final program) defines global priorities and resource constraints: how much of the machine to use, whether latency or throughput matters, which devices are allowed.
+1. *The algorithmic layer* (library code) identifies available parallelism and its trade-offs: what may run concurrently, what it costs in extra work or memory, and below which size it isn't worth it.
+2. *The execution layer* (the runtime and the compiler) maps that available parallelism onto threads, cores, vector lanes and accelerators, based on the hardware and on what is free right now.
+3. *The application layer* (whoever builds the final program) defines global priorities and resource constraints: how much of the machine to use, whether latency or throughput matters, which devices are allowed.
 
 Most ecosystems collapse at least two of these into one. A BLAS that reads `OMP_NUM_THREADS` and spins up its own pool has merged the algorithmic and the execution layer. A library that takes `n_jobs` has handed an application-layer decision to every caller in between. Every case study below is about putting a decision back where its information lives.
 
@@ -57,12 +57,12 @@ Most ecosystems collapse at least two of these into one. A BLAS that reads `OMP_
 
 Six criteria, the same for every mechanism:
 
-1. **One source of truth.** Don't pass what the data already carries.
-2. **It nests.** A strategy used inside another strategy still works.
-3. **It has a default,** so code that doesn't care never mentions it.
-4. **It's open.** Others can add strategies without editing your code.
-5. **It doesn't change results,** or the change is visible in types, signatures or the build.
-6. **Its cost is predictable, or reported.** If the strategy is chosen implicitly, the toolchain tells you what it chose.
+1. *One source of truth.* Don't pass what the data already carries.
+2. *It nests.* A strategy used inside another strategy still works.
+3. *It has a default,* so code that doesn't care never mentions it.
+4. *It's open.* Others can add strategies without editing your code.
+5. *It doesn't change results,* or the change is visible in types, signatures or the build.
+6. *Its cost is predictable, or reported.* If the strategy is chosen implicitly, the toolchain tells you what it chose.
 
 The sixth criterion is easy to forget, because the first five are about correctness. But implicit strategies (lazy evaluation, compiler-inserted allocation, parallelism that may or may not happen) are exactly where performance cliffs hide. Making all of them explicit in the source would defeat the point. What works is a compiler that reports what it did: which loops it fused, where it materialised a lazy expression, where it allocated, where it fell back to scalar code. A slow loop should never be a mystery.
 
@@ -101,7 +101,7 @@ let scores: Vec<f64> = rows.par_iter().map(score).collect();
 
 None of these mention a thread count. The X10 designers were explicit about the consequence: programmers are expected to expose _more_ parallelism than the hardware can use, and the runtime maps it onto fewer resources. That is the whole architecture in one sentence.
 
-This is also why I prefer **explicit parallel regions with implicit scheduling** over the two alternatives. Making parallelism opt-out (every map might be parallel) only works for code without side effects. Automatic parallelisation of sequential-looking code needs alias, effect and exception analysis that a general-purpose compiler can rarely complete. A parallel region is cheap to write, says exactly what the author knows, and leaves everything else to the runtime.
+This is also why I prefer *explicit parallel regions with implicit scheduling* over the two alternatives. Making parallelism opt-out (every map might be parallel) only works for code without side effects. Automatic parallelisation of sequential-looking code needs alias, effect and exception analysis that a general-purpose compiler can rarely complete. A parallel region is cheap to write, says exactly what the author knows, and leaves everything else to the runtime.
 
 ### Expose trade-offs, not just parallelism
 
@@ -199,10 +199,10 @@ This answers a question that a Boolean "am I already in a parallel region?" flag
 
 The runtime has a few obligations to make this work:
 
-- **Helping while waiting.** A worker that waits for its children must run other tasks meanwhile. If it blocks the thread instead, a nested wait can deadlock the whole pool once every worker is waiting.
-- **Granularity control.** A shared scheduler prevents thread explosion, but not task explosion. A parallel map that calls a function containing another parallel map can produce millions of tiny tasks. Lazy splitting, minimum grain sizes and running small tasks inline keep this in check.
-- **Sequential as a first-class policy.** Running everything on one worker should be a supported mode, not a fallback: it is what you want for debugging, benchmarking a single core, or tiny inputs.
-- **Resource discovery.** The number of usable cores isn't the number of logical CPUs. Containers set CPU quotas through cgroups, processes have affinity masks, and a CPU may mix performance and efficiency cores. Go only made `GOMAXPROCS` respect container CPU limits in Go 1.25. Answers to "how many cores do I have?" should also be treated as advisory, because another process can take them a millisecond later.
+- *Helping while waiting.* A worker that waits for its children must run other tasks meanwhile. If it blocks the thread instead, a nested wait can deadlock the whole pool once every worker is waiting.
+- *Granularity control.* A shared scheduler prevents thread explosion, but not task explosion. A parallel map that calls a function containing another parallel map can produce millions of tiny tasks. Lazy splitting, minimum grain sizes and running small tasks inline keep this in check.
+- *Sequential as a first-class policy.* Running everything on one worker should be a supported mode, not a fallback: it is what you want for debugging, benchmarking a single core, or tiny inputs.
+- *Resource discovery.* The number of usable cores isn't the number of logical CPUs. Containers set CPU quotas through cgroups, processes have affinity masks, and a CPU may mix performance and efficiency cores. Go only made `GOMAXPROCS` respect container CPU limits in Go 1.25. Answers to "how many cores do I have?" should also be treated as advisory, because another process can take them a millisecond later.
 
 The operating system can't do this job. It sees threads, not tasks or dependencies, and it cannot tell a thread doing useful work from one that is spinning while it waits for a child.
 
@@ -227,7 +227,7 @@ One honest exception: tasks that _talk_ to each other over channels are concurre
 
 In native code, a shared runtime is an ideal you never fully reach. The fastest BLAS on your machine probably uses OpenMP or its own pthreads pool. A CUDA library has its own streams. A legacy C library spawns threads in an initialiser. Making a single runtime mandatory would mean refusing to call any of them in parallel.
 
-The useful middle ground is to treat a foreign runtime as a **budget claimant**. When a task calls into such a library, the runtime lends it a number of workers and tells the library to use exactly that many for this call, through whatever hook it offers:
+The useful middle ground is to treat a foreign runtime as a *budget claimant*. When a task calls into such a library, the runtime lends it a number of workers and tells the library to use exactly that many for this call, through whatever hook it offers:
 
 - BLIS accepts thread settings per call through its runtime object.
 - MKL has `mkl_set_num_threads_local`, which applies to the calling thread only.
@@ -239,9 +239,9 @@ While the call runs, the lent workers are marked busy, so the native scheduler d
 
 A block size needs two facts. The data knows its size, the machine knows its cache. The library knows neither, so the library should only say _that_ a loop can be blocked, and never pick the number. That leaves three ways for the execution layer to choose:
 
-1. **A compile-time budget.** The compiler derives the bytes per iteration from the element types and picks the largest block that fits a per-target cache budget. The block size is then a constant, so the vectoriser sees fixed trip counts and can unroll completely. This is the cheapest option, and it is wrong whenever the budget doesn't match the machine.
-2. **Run-time tuning.** Native code can simply ask: `cpuid`, `sysconf` and `/sys/devices/system/cpu` report cache sizes. Taken further, you measure: ATLAS tunes its kernels when it is installed, and FFTW plans transforms at run time and saves the result as "wisdom".
-3. **Cache-oblivious recursion.** Split in half until the problem fits in _some_ cache, without knowing which. This is asymptotically optimal for every level of the hierarchy at once, but pays for the recursion overhead and is harder to vectorise.
+1. *A compile-time budget.* The compiler derives the bytes per iteration from the element types and picks the largest block that fits a per-target cache budget. The block size is then a constant, so the vectoriser sees fixed trip counts and can unroll completely. This is the cheapest option, and it is wrong whenever the budget doesn't match the machine.
+2. *Run-time tuning.* Native code can simply ask: `cpuid`, `sysconf` and `/sys/devices/system/cpu` report cache sizes. Taken further, you measure: ATLAS tunes its kernels when it is installed, and FFTW plans transforms at run time and saves the result as "wisdom".
+3. *Cache-oblivious recursion.* Split in half until the problem fits in _some_ cache, without knowing which. This is asymptotically optimal for every level of the hierarchy at once, but pays for the recursion overhead and is harder to vectorise.
 
 In pseudocode, the library's side looks the same for all three:
 
@@ -272,16 +272,16 @@ fn dot(a: &[f32], b: &[f32]) -> f32 {
 
 This fails criterion 4. To support a new target in someone else's function, you have to edit it.
 
-Native toolchains already have the composing version: **function multiversioning**. GCC and Clang have `__attribute__((target_clones("avx2", "avx512f", "default")))` and `ifunc` resolvers, Rust has the `multiversion` crate, and Google's Highway compiles one source for several targets and dispatches at run time. Variants are separate definitions, selected once when the program loads:
+Native toolchains already have the composing version: *function multiversioning*. GCC and Clang have `__attribute__((target_clones("avx2", "avx512f", "default")))` and `ifunc` resolvers, Rust has the `multiversion` crate, and Google's Highway compiles one source for several targets and dispatches at run time. Variants are separate definitions, selected once when the program loads:
 
 ```cpp
 __attribute__((target("default")))  float dot(const float* a, const float* b, size_t n);
 __attribute__((target("avx512f")))  float dot(const float* a, const float* b, size_t n);
 ```
 
-- **Open.** Anyone can add a variant for their own type or target.
-- **A default.** The baseline variant runs everywhere.
-- **Visible result changes.** A variant that uses FMA or reassociates sums changes bits, so it should only be selectable by callers who opted into relaxed floating point.
+- *Open.* Anyone can add a variant for their own type or target.
+- *A default.* The baseline variant runs everywhere.
+- *Visible result changes.* A variant that uses FMA or reassociates sums changes bits, so it should only be selectable by callers who opted into relaxed floating point.
 
 The instruction set is a fact about the run, not about the data: an array's bytes don't depend on which instructions read them. That's why it belongs to the execution layer and not to the array type.
 
@@ -307,9 +307,9 @@ let l = mean(h).read()?;           // materialised here
 
 The same function then works on eager CPU arrays and lazy GPU arrays. But a single type hides three things, and each needs an answer:
 
-- **Error timing.** A shape error or an out-of-memory error surfaces at `read()`, not where it was caused. The graph has to keep source locations, so the error can point at the line that built the failing node.
-- **Peak memory.** It depends on where the graph happens to be cut. Criterion 6 again: the toolchain should report where it materialises.
-- **Whole-plan optimisation.** Part of Polars' reason for a separate `LazyFrame` is that pushing a filter down into a file scan requires seeing the whole query before running any of it. Implicit laziness gets this only if the graph reaches back to the scan, which means the reader has to be lazy too.
+- *Error timing.* A shape error or an out-of-memory error surfaces at `read()`, not where it was caused. The graph has to keep source locations, so the error can point at the line that built the failing node.
+- *Peak memory.* It depends on where the graph happens to be cut. Criterion 6 again: the toolchain should report where it materialises.
+- *Whole-plan optimisation.* Part of Polars' reason for a separate `LazyFrame` is that pushing a filter down into a file scan requires seeing the whole query before running any of it. Implicit laziness gets this only if the graph reaches back to the scan, which means the reader has to be lazy too.
 
 ## The application layer
 
@@ -317,9 +317,9 @@ The same function then works on eager CPU arrays and lazy GPU arrays. But a sing
 
 The application author decides how much of the machine to use. The tempting interface is a thread count, but a thread count is a poor proxy for what an application actually wants to say. It has three kinds of things to say:
 
-- **Hard constraints:** at most this many workers, at most this much memory, only these devices.
-- **A soft objective:** optimise for throughput, for latency, or for reproducibility.
-- **A sharing policy:** when two computations compete for the same cores, split them evenly, prioritise one, or let each finish as fast as possible in turn. There is no universally correct answer here, which is precisely why it's the application's decision.
+- *Hard constraints:* at most this many workers, at most this much memory, only these devices.
+- *A soft objective:* optimise for throughput, for latency, or for reproducibility.
+- *A sharing policy:* when two computations compete for the same cores, split them evenly, prioritise one, or let each finish as fast as possible in turn. There is no universally correct answer here, which is precisely why it's the application's decision.
 
 So the application layer's tool is a _scoped execution context_ that carries these, with a worker limit as the simplest case:
 
@@ -350,8 +350,8 @@ Yes. A scoped context is implicit state that flows down the call stack, which is
 
 Two questions remain open:
 
-- **Inheritance.** Does the limit follow a task that is spawned inside the block but runs later? With transitive `finish` scopes the answer is easy, because no such task exists. Without them, the context has to be captured at spawn time.
-- **Library misuse.** Nothing technically stops a library from wrapping its own code in `with execution(workers: 1)`, which brings back the old problem in a new form. A language could reject that in library code, or a linter could flag it. Either way, the convention has to be that libraries describe work and applications set limits.
+- *Inheritance.* Does the limit follow a task that is spawned inside the block but runs later? With transitive `finish` scopes the answer is easy, because no such task exists. Without them, the context has to be captured at spawn time.
+- *Library misuse.* Nothing technically stops a library from wrapping its own code in `with execution(workers: 1)`, which brings back the old problem in a new form. A language could reject that in library code, or a linter could flag it. Either way, the convention has to be that libraries describe work and applications set limits.
 
 ### Beyond one machine
 
@@ -370,9 +370,9 @@ Handing execution decisions to other parties is only safe if they can't change w
 
 How strong should this guarantee be? I think it has to be tiered, because full reproducibility everywhere is expensive.
 
-**Tier 1, always: the same bits for any number of workers and any block size, on one target and build.** This is cheap. Floating-point reductions are summed in fixed-size blocks in a fixed tree shape, every block size the execution layer picks is a multiple of that summation block, and the scheduler only decides which worker sums which block. Then a parallel region really is only a hint: removing it, or running everything on one worker, gives the same answer. That makes adding parallelism to a library a patch release instead of a behaviour change.
+*Tier 1, always: the same bits for any number of workers and any block size, on one target and build.* This is cheap. Floating-point reductions are summed in fixed-size blocks in a fixed tree shape, every block size the execution layer picks is a multiple of that summation block, and the scheduler only decides which worker sums which block. Then a parallel region really is only a hint: removing it, or running everything on one worker, gives the same answer. That makes adding parallelism to a library a patch release instead of a behaviour change.
 
-**Tier 2, opt-in: the same bits across instruction sets and devices.** This is expensive. SIMD width ranges from 128 bits (SSE, NEON) through 256 (AVX2) to 512 (AVX-512) and beyond (SVE), so a summation tree that is natural for one width wastes the others. GPU and CPU maths libraries implement `exp` and `sin` differently. Getting identical bits means fixing the tree for the narrowest target and using correctly rounded or identically implemented transcendentals everywhere. Intel's MKL calls this Conditional Numerical Reproducibility and documents the slowdown. ReproBLAS gets reproducible sums with a cleverer algorithm, and still pays for it. That's a price some applications should pay (regulatory work, debugging across machines) and most shouldn't, so it's an application-level objective, visible in the build or the types.
+*Tier 2, opt-in: the same bits across instruction sets and devices.* This is expensive. SIMD width ranges from 128 bits (SSE, NEON) through 256 (AVX2) to 512 (AVX-512) and beyond (SVE), so a summation tree that is natural for one width wastes the others. GPU and CPU maths libraries implement `exp` and `sin` differently. Getting identical bits means fixing the tree for the narrowest target and using correctly rounded or identically implemented transcendentals everywhere. Intel's MKL calls this Conditional Numerical Reproducibility and documents the slowdown. ReproBLAS gets reproducible sums with a cleverer algorithm, and still pays for it. That's a price some applications should pay (regulatory work, debugging across machines) and most shouldn't, so it's an application-level objective, visible in the build or the types.
 
 Cilk calls the property behind tier 1 _serial elision_: delete every `spawn` and you get the same program. The idea generalises to every execution decision: delete every hint (a parallel region, a pinned block size, a hardware variant), and you get the same bits. But it has a precondition that's easy to gloss over: the parallel bodies must have no observable effects and must not alias each other. If they print, the output order changes. If they fail, which error surfaces first changes. And peak memory changes, because each worker needs its own scratch space. Serial elision is a property of pure code, and a language that promises it has to make purity and non-aliasing checkable.
 
@@ -399,9 +399,9 @@ lift { f(x, y) }                     WHAT (semantic): f, plus the lift
                └─ features?          device capabilities
 ```
 
-- **Parallel execution is a level of the CPU branch, not a sibling of the GPU.** On an accelerator, parallelism is the grid itself.
-- **The levels nest.** Workers receive whole blocks, blocks have a fixed size, and the vector lanes see constant trip counts.
-- **New accelerators** add a sibling branch with its own levels, never new parameters on everyone's functions.
+- *Parallel execution is a level of the CPU branch, not a sibling of the GPU.* On an accelerator, parallelism is the grid itself.
+- *The levels nest.* Workers receive whole blocks, blocks have a fixed size, and the vector lanes see constant trip counts.
+- *New accelerators* add a sibling branch with its own levels, never new parameters on everyone's functions.
 
 ## Async: the case I haven't settled
 
@@ -409,16 +409,16 @@ Async I/O has the same structure as everything above, and I don't know the answe
 
 Native languages have tried every option:
 
-- **Stackless async** (Rust, C++20 coroutines) compiles each async function into a state machine. Cheap, explicit, and coloured.
-- **Stackful coroutines and green threads** (Go's goroutines, Java's virtual threads since JDK 21) give every task its own small stack, so any function can block and the runtime switches tasks underneath. No colour, but every task costs a stack, and calls into C need care.
-- **Injected I/O** (Zig's new `Io` interface) passes the I/O implementation as an argument, so the same code runs blocking or asynchronous depending on what the caller hands in. That's injection that passes criterion 4.
+- *Stackless async* (Rust, C++20 coroutines) compiles each async function into a state machine. Cheap, explicit, and coloured.
+- *Stackful coroutines and green threads* (Go's goroutines, Java's virtual threads since JDK 21) give every task its own small stack, so any function can block and the runtime switches tasks underneath. No colour, but every task costs a stack, and calls into C need care.
+- *Injected I/O* (Zig's new `Io` interface) passes the I/O implementation as an argument, so the same code runs blocking or asynchronous depending on what the caller hands in. That's injection that passes criterion 4.
 
 What makes me hesitant to declare colour unnecessary is that suspension _can_ be observed:
 
-- **Locks held across a suspension point.** Java's virtual threads used to pin their carrier thread inside `synchronized` blocks, which could starve the scheduler; JDK 24 fixed that.
-- **Re-entrancy.** Other code can run while you're suspended, and can change state you assumed was stable.
-- **Cancellation.** Structured concurrency makes every suspension point a place where a task can be cancelled, which is more observable, not less.
-- **Latency.** A function that may wait for the network has a different cost model than one that can't.
+- *Locks held across a suspension point.* Java's virtual threads used to pin their carrier thread inside `synchronized` blocks, which could starve the scheduler; JDK 24 fixed that.
+- *Re-entrancy.* Other code can run while you're suspended, and can change state you assumed was stable.
+- *Cancellation.* Structured concurrency makes every suspension point a place where a task can be cancelled, which is more observable, not less.
+- *Latency.* A function that may wait for the network has a different cost model than one that can't.
 
 With value semantics and structured concurrency, most of these go away, and what remains is latency. Whether that's enough to justify colour is the question I'd like to settle next.
 
@@ -448,11 +448,11 @@ Library code holds none of the program-wide overrides. A library says _what_ it 
 
 Execution strategies are decided by many people at many layers. Give each layer the decisions it has the information for:
 
-- **The algorithmic layer** exposes parallelism and its trade-offs.
-- **The execution layer** maps it onto the machine.
-- **The application layer** sets priorities and limits.
+- *The algorithmic layer* exposes parallelism and its trade-offs.
+- *The execution layer* maps it onto the machine.
+- *The application layer* sets priorities and limits.
 
-Then choose mechanisms by whether the strategies **compose**:
+Then choose mechanisms by whether the strategies *compose*:
 
 - one source of truth;
 - they nest;

@@ -4,7 +4,7 @@
   Dev Documentation
   -----------------
   - mdsvex layout for src/ref/**: the shared prose styles plus KaTeX's stylesheet.
-  - Math is pre-rendered at build time (remark-plugins.ts); only the CSS + fonts ship.
+  - Math is pre-rendered at build time by mdsvex (katex renderer); only the CSS + fonts ship.
 -->
 
 <script lang="ts">

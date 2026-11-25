@@ -1,56 +1,31 @@
 import adapter from '@sveltejs/adapter-static';
 import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
-import { escapeSvelte, mdsvex, type MdsvexOptions } from 'mdsvex';
-import remarkMath from 'remark-math';
-import { createHighlighter } from 'shiki';
-import { remarkHeadings, remarkKatex } from './src/lib/mdpages/remark-plugins.ts';
-import { dirname, join } from 'path';
-import { fileURLToPath } from 'url';
+import { mdsvex } from 'mdsvex';
+import { toc } from '@mdsvex/plugin-toc';
 import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig } from 'vite';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-const layouts_dir = join(__dirname, './src/lib/mdpages');
-
-const highlighter = await createHighlighter({
-	themes: ['poimandres'],
-	langs: [
-		'javascript',
-		'typescript',
-		'python',
-		'rust',
-		'c',
-		'cpp',
-		'julia',
-		'fortran-free-form',
-		'toml'
-	]
-});
-
-const mdsvexOptions: MdsvexOptions = {
-	extensions: ['.md'],
-	remarkPlugins: [remarkMath, remarkHeadings, remarkKatex],
-	highlight: {
-		highlighter: (code, lang = 'text') => {
-			const html = escapeSvelte(
-				highlighter.codeToHtml(code, { lang: lang ?? 'text', theme: 'poimandres' })
-			);
-			return `{@html \`${html}\` }`;
-		}
-	},
-	layout: {
-		_: join(layouts_dir, 'Layout.svelte'),
-		tutorials: join(layouts_dir, 'Layout.svelte'),
-		ref: join(layouts_dir, 'RefLayout.svelte')
-	}
-};
-
 export default defineConfig({
 	plugins: [
+		mdsvex({
+			extensions: ['.md'],
+			heading_ids: true,
+			math: { renderer: 'katex' },
+			// h2/h3 as plugin_data.toc.headings, for the /ref table of contents
+			plugins: [toc()],
+			templates: {
+				default: './src/lib/mdpages/Layout.svelte',
+				tutorials: './src/lib/mdpages/Layout.svelte',
+				ref: './src/lib/mdpages/RefLayout.svelte'
+			},
+			// 0.x picked a named layout by folder name; templates need it explicitly.
+			select_template: (id) =>
+				id.includes('/tutorials/') ? 'tutorials' : id.includes('/ref/') ? 'ref' : undefined,
+			smart_punctuation: true
+		}),
 		sveltekit({
 			extensions: ['.svelte', '.md'],
-			preprocess: [vitePreprocess(), mdsvex(mdsvexOptions)],
+			preprocess: [vitePreprocess()],
 			adapter: adapter({
 				pages: 'build',
 				assets: 'build',

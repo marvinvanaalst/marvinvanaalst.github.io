@@ -21,12 +21,12 @@
 <PageHeader title={data.meta.title} subtitle={data.meta.description} />
 
 <div class="layout">
-	{#if data.meta.headings.length}
+	{#if data.headings.length}
 		<aside>
 			<nav class="toc" aria-label="On this page">
 				<span class="eyebrow muted">On this page</span>
 				<ul>
-					{#each data.meta.headings as heading (heading.id)}
+					{#each data.headings as heading (heading.id)}
 						<li class:sub={heading.depth === 3}><a href="#{heading.id}">{heading.text}</a></li>
 					{/each}
 				</ul>

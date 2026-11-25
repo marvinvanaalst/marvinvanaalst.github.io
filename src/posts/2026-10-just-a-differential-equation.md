@@ -5,7 +5,7 @@ categories:
   - musings
 date: '2026-10-05'
 author: 'Marvin van Aalst'
-layout: tutorials
+template: tutorials
 published: true
 ---
 
@@ -83,10 +83,10 @@ Five lines, and you can see why everyone picks it.
 
 Taking a beautiful continuous-time model and simulating it with the integrator from the first lecture sounds silly. To be fair, though, there are good reasons it keeps happening:
 
-1. **There is often no "true" ODE.** In a ResNet or RNN the weights are trained _through_ the Euler steps. The network learns whatever discrete map works, Euler error included. Asking how accurately it approximates the ODE is like asking how accurately a recipe approximates the cake. The discrete map is the model, and the ODE is a lens for analysing it.
-2. **One function evaluation per step.** Every extra RK stage is another forward pass through a large network, plus memory for backprop. If accuracy against an ODE isn't the goal, Euler is the cheapest map with the right structure (a skip connection plus an update).
-3. **Gradients are trivial.** Backpropagating through `x + h·f(x)` is easy. Adaptive solvers with error control bring step-size logic, rejected steps and adjoint methods into the training loop.
-4. **The ODE view earns its keep anyway.** Even when nobody integrates accurately, the continuous picture tells you _what can go wrong_: exploding and vanishing dynamics, stability regions, oversmoothing. Stability analysis is something numerical analysts have been doing since long before deep learning.
+1. *There is often no "true" ODE.* In a ResNet or RNN the weights are trained _through_ the Euler steps. The network learns whatever discrete map works, Euler error included. Asking how accurately it approximates the ODE is like asking how accurately a recipe approximates the cake. The discrete map is the model, and the ODE is a lens for analysing it.
+2. *One function evaluation per step.* Every extra RK stage is another forward pass through a large network, plus memory for backprop. If accuracy against an ODE isn't the goal, Euler is the cheapest map with the right structure (a skip connection plus an update).
+3. *Gradients are trivial.* Backpropagating through `x + h·f(x)` is easy. Adaptive solvers with error control bring step-size logic, rejected steps and adjoint methods into the training loop.
+4. *The ODE view earns its keep anyway.* Even when nobody integrates accurately, the continuous picture tells you _what can go wrong_: exploding and vanishing dynamics, stability regions, oversmoothing. Stability analysis is something numerical analysts have been doing since long before deep learning.
 
 The punchline, though, is that whenever someone took the "it's a differential equation" claim seriously and swapped in a better integrator, things got better, or at least the integrator stopped getting in the way. AntisymmetricRNN had to patch around Euler's stability region. Linear state-space models like [S4 (Gu et al., 2022)](https://arxiv.org/abs/2111.00396) skip Euler entirely and use exact zero-order-hold or bilinear discretisations of a linear ODE.
 
