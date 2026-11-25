@@ -4,11 +4,14 @@
   Dev Documentation
   -----------------
   - mdsvex passes the frontmatter (title, date, ...) as props; only the content is rendered here.
+  - Math is pre-rendered at build time by mdsvex (katex renderer); only KaTeX's CSS + fonts
+    ship. Without the stylesheet the hidden MathML copy shows next to the HTML render.
   - Code fences are highlighted by mdsvex (twinkleplop) and themed with Night Owl dark.
 -->
 
 <script lang="ts">
 	import '@twinkleplop/theme-night-owl/dark';
+	import 'katex/dist/katex.min.css';
 
 	let { children } = $props();
 </script>
@@ -22,6 +25,16 @@
 		max-width: 72ch;
 		padding-bottom: 32px;
 		line-height: 1.75;
+	}
+
+	.prose :global(.katex) {
+		font-size: 1.08em;
+	}
+
+	.prose :global(.katex-display) {
+		overflow-x: auto;
+		overflow-y: hidden;
+		padding: 2px 0;
 	}
 
 	.prose :global(> * + *) {
