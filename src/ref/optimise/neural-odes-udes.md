@@ -43,7 +43,7 @@ template: ref
 | Model form | pure NODE, UDE (hybrid), latent ODE (encoder + ODE in latent space) | UDE whenever some mechanism is known |
 | Network size | tiny MLPs (2–3 layers, 16–64 units) to large | small; smooth activations (tanh, softplus, GELU) |
 | Solver | explicit RK (Tsit5), stiff (Rodas, KenCarp), fixed step | adaptive explicit unless stiff; stiff needs implicit + AD-compatible Jacobians |
-| Gradient method | forward mode, reverse AD through solver, interpolating adjoint, backsolve adjoint | forward for few params; interpolating adjoint or discrete adjoint for many; avoid backsolve on stiff systems |
+| Gradient method | forward mode, reverse AD through solver, interpolating adjoint, backsolve adjoint | forward for few params; checkpointed discrete adjoint (diffrax default) or interpolating adjoint for many; avoid backsolve (approximate gradients, unstable on stiff systems) |
 | Loss | trajectory MSE, multiple shooting with continuity penalty, collocation (derivative matching) | collocation to pre-train, shooting to refine |
 | Optimiser | Adam then L-BFGS | Adam for robustness, finish with (L-)BFGS |
 | Equation recovery | SINDy, symbolic regression (PySR, SymbolicRegression.jl) | SINDy on NN outputs over the data range |
@@ -94,7 +94,7 @@ template: ref
 
 - *NN absorbs known physics:* the hybrid fits but mechanistic parameters become meaningless; constrain the NN's inputs/outputs or regularise.
 - *Extrapolation:* learned terms are only valid within the state space covered by data; check predictions outside it.
-- *Adjoint instability* with backsolve on stiff/dissipative systems: noisy gradients. Use interpolating or checkpointed adjoints.
+- *Adjoint instability* with backsolve on stiff/dissipative systems: noisy gradients. Use a checkpointed discrete adjoint or an interpolating adjoint.
 - *Slow training* usually means stiffness or too many solver steps; monitor the number of function evaluations per forward pass.
 - *Report baselines:* the mechanistic model alone and a pure black-box model; the hybrid should beat both on held-out data.
 
